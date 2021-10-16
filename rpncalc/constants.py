@@ -3,6 +3,7 @@ import math
 constants = {
     'pi'  : math.pi,
     'tau' : 2*math.pi,
+    'e'   : math.e,
     'c'   : 299792458,
     'h'   : 6.62607015e-34,
     'mu0' : 1.2566370621219e-6,
