@@ -22,33 +22,34 @@ class BinaryOperator(Enum):
 
         v1, v0 = tuple(take_n(2,stack,self))
 
-        match self.name:
+        o = BinaryOperator
+        match self:
 
-            case 'addition':
+            case o.addition:
                 r = v0+v1
-            case 'subtraction':
+            case o.subtraction:
                 r = v0-v1
-            case 'multiplication':
+            case o.multiplication:
                 r = v0*v1
-            case 'division':
+            case o.division:
                 r = v0/v1
-            case 'integerdivision':
+            case o.integerdivision:
                 r = v0//v1
-            case 'power':
+            case o.power:
                 r = math.pow(v0,v1)
-            case 'log_base':
+            case o.log_base:
                 r = math.log(v0,v1)
-            case 'atan2':
+            case o.atan2:
                 r = math.atan2(v0,v1)
-            case 'equals':
+            case o.equals:
                 r = v0 == v1
-            case 'gt':
+            case o.gt:
                 r = v0 > v1
-            case 'gte':
+            case o.gte:
                 r = v0 >= v1
-            case 'lt':
+            case o.lt:
                 r = v0 < v1
-            case 'lte':
+            case o.lte:
                 r = v0 <= v1
 
             case _:

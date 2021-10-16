@@ -20,23 +20,24 @@ class ReductionOperator(Enum):
 
     def action(self, stack):
 
-        match self.name:
+        o = ReductionOperator
+        match self:
 
-            case 'reduce_plus':
+            case o.reduce_plus:
                 r = reduce(lambda x,y: x+y, stack)
-            case 'reduce_mult':
+            case o.reduce_mult:
                 r = reduce(lambda x,y: x*y, stack)
-            case 'mean':
+            case o.mean:
                 r = reduce(lambda x,y: x+y, stack) / len(stack)
-            case 'reduce_max':
+            case o.reduce_max:
                 r = max(stack)
-            case 'reduce_min':
+            case o.reduce_min:
                 r = min(stack)
-            case 'stdev':
+            case o.stdev:
                 r = stdev(stack)
-            case 'sem':
+            case o.sem:
                 r = stdev(stack) / sqrt(len(stack))
-            case 'variance':
+            case o.variance:
                 r = variance(stack)
             case _:
                 msg = f"Missing case match for {self}"
