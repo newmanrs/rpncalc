@@ -9,6 +9,7 @@ class BinaryOperator(Enum):
     multiplication = '*'
     division = '/'
     integerdivision = '//'
+    power = '^'
     atan2 = 'atan2'        # atan2(y, x) input 1000 1 atan2 for ~pi/2
     log_base = 'log_base'  # 100 10 log_base gives 2
     equals = '='
@@ -21,31 +22,33 @@ class BinaryOperator(Enum):
 
         v1, v0 = tuple(take_n(2,stack,self))
 
-        match self:
+        match self.name:
 
-            case BinaryOperator.addition:
+            case 'addition':
                 r = v0+v1
-            case BinaryOperator.subtraction:
+            case 'subtraction':
                 r = v0-v1
-            case BinaryOperator.multiplication:
+            case 'multiplication':
                 r = v0*v1
-            case BinaryOperator.division:
+            case 'division':
                 r = v0/v1
-            case BinaryOperator.integerdivision:
+            case 'integerdivision':
                 r = v0//v1
-            case BinaryOperator.log_base:
+            case 'power':
+                r = math.pow(v0,v1)
+            case 'log_base':
                 r = math.log(v0,v1)
-            case BinaryOperator.atan2:
+            case 'atan2':
                 r = math.atan2(v0,v1)
-            case BinaryOperator.equals:
+            case 'equals':
                 r = v0 == v1
-            case BinaryOperator.gt:
+            case 'gt':
                 r = v0 > v1
-            case BinaryOperator.gte:
+            case 'gte':
                 r = v0 >= v1
-            case BinaryOperator.lt:
+            case 'lt':
                 r = v0 < v1
-            case BinaryOperator.lte:
+            case 'lte':
                 r = v0 <= v1
 
             case _:

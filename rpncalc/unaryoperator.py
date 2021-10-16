@@ -20,29 +20,29 @@ class UnaryOperator(Enum):
 
         x = next(take_n(1,stack,self))
 
-        match self:
+        match self.name:
 
-            case UnaryOperator.sin:
+            case 'sin':
                 r = math.sin(x)
-            case UnaryOperator.cos:
+            case 'cos':
                 r = math.cos(x)
-            case UnaryOperator.tan:
+            case 'tan':
                 r = math.tan(x)
-            case UnaryOperator.asin:
+            case 'asin':
                 r = math.asin(x)
-            case UnaryOperator.exp:
+            case 'exp':
                 r = math.exp(x)
-            case UnaryOperator.ln:
+            case 'ln':
                 r = math.log(x)
-            case UnaryOperator.expmxsq:
+            case 'expmxsq':
                 r = math.exp(-(x*x))
-            case UnaryOperator.acos:
+            case 'acos':
                 r = math.acos(x)
-            case UnaryOperator.atan:
+            case 'atan':
                 r = math.atan(x)
-            case UnaryOperator.sqrt:
+            case 'sqrt':
                 r = math.sqrt(x)
-            case UnaryOperator.to_int:
+            case 'to_int':
                 r = int(x)
             case _:
                 msg = f"Missing case match for {op}"

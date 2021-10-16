@@ -86,3 +86,4 @@ def main():
         print(stack[0])
     else:
         print(stack)
+
