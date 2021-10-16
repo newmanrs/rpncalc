@@ -2,11 +2,11 @@ import sys
 
 from enum import Enum, unique
 
-from .constants import Constants
-from .binaryoperator import BinaryOperator
-from .unaryoperator import UnaryOperator
-from .idempotentoperator import IdempotentOperator
-from .reductionoperator import ReductionOperator
+from rpncalc.constants import Constants
+from rpncalc.idempotentoperator import IdempotentOperator
+from rpncalc.unaryoperator import UnaryOperator
+from rpncalc.binaryoperator import BinaryOperator
+from rpncalc.reductionoperator import ReductionOperator
 
 def parse_args(args):
     """
@@ -63,7 +63,20 @@ def main():
     elif len(sys.argv) == 2: # Args encased in string
         parsedargs = parse_args(sys.argv[1].split())
     else:
-        print("No arguments to parse")
+        msg = "No arguments to parse. Displaying help.\n"
+        msg += "Pass integers or numbers to script and apply one or more"
+        msg += " of the following operators:\n\n"
+        msg += "Constants: {}\n\n".format(Constants().get_names())
+        msg += "Idempotent Operators: {}\n\n".format(
+            tuple(i.value for i in IdempotentOperator))
+        msg += "Unary Operators: {}\n\n".format(
+            tuple(i.value for i in UnaryOperator))
+        msg += "Binary Operators: {}\n\n".format(
+            tuple(i.value for i in BinaryOperator))
+        msg += "Reduction Operators: {}\n\n".format(
+            tuple(i.value for i in ReductionOperator))
+        msg += "Quote input to avoid shell expansion of special chars such as '*', '>'"
+        print(msg)
         sys.exit(0)
 
     stack = compute_rpn(parsedargs)
@@ -73,5 +86,3 @@ def main():
         print(stack[0])
     else:
         print(stack)
-
-    #print(constants.constants)
