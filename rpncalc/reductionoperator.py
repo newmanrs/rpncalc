@@ -1,5 +1,4 @@
-from statistics import stdev, variance
-from math import sqrt
+import math, statistics
 from enum import Enum, unique
 from functools import reduce
 
@@ -20,29 +19,30 @@ class ReductionOperator(Enum):
 
     def action(self, stack):
 
-        o = ReductionOperator
+        o = type(self)
         match self:
 
             case o.reduce_plus:
-                r = reduce(lambda x,y: x+y, stack)
+                f = sum
             case o.reduce_mult:
-                r = reduce(lambda x,y: x*y, stack)
+                f = math.prod
             case o.mean:
-                r = reduce(lambda x,y: x+y, stack) / len(stack)
+                f = statistics.mean
             case o.reduce_max:
-                r = max(stack)
+                f = max
             case o.reduce_min:
-                r = min(stack)
+                f = min
             case o.stdev:
-                r = stdev(stack)
+                f = statistics.stdev
             case o.sem:
-                r = stdev(stack) / sqrt(len(stack))
+                f = lambda x: statics.stdev(x)/sqrt(len(x))
             case o.variance:
-                r = variance(stack)
+                f = statistics.variance
             case _:
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
 
+        r = f(stack)
         stack.clear()
         stack.append(r)
 

@@ -22,7 +22,7 @@ class BinaryOperator(Enum):
 
         v1, v0 = tuple(take_n(2,stack,self))
 
-        o = BinaryOperator
+        o = type(self)
         match self:
 
             case o.addition:

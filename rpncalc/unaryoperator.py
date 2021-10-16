@@ -21,7 +21,7 @@ class UnaryOperator(Enum):
 
         x = next(take_n(1,stack,self))
 
-        o = UnaryOperator
+        o = type(self)
         match self:
 
             case o.sin:

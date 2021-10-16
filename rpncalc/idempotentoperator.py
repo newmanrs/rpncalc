@@ -6,8 +6,9 @@ class IdempotentOperator(Enum):
 
     def action(self, stack):
 
-        match self.name:
-            case 'print_stack':
+        o = type(self)
+        match self:
+            case o.print_stack:
                 print(f"Stack: {stack}")
             case _:
                 msg = f"Missing case match for action {self}"
