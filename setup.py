@@ -4,11 +4,12 @@ setup(
     name='rpncalc',
     version='0.0.1',
     py_modules=['rpncalc'],
+    packages = ['rpncalc'],
     install_requires=[
     ],
     entry_points={
         'console_scripts': [
-            'rpncalc=rpncalc:main',
+            'rpncalc=rpncalc.rpncalc:main',
         ],
     },
 )
