@@ -15,6 +15,7 @@ class UnaryOperator(Enum):
     expmxsq = 'expmxsq'    # exp(-x^2)
     ln = 'ln'
     sqrt = 'sqrt'
+    inv = 'inv'
 
     def action(self, stack):
 
@@ -44,6 +45,8 @@ class UnaryOperator(Enum):
                 r = math.sqrt(x)
             case 'to_int':
                 r = int(x)
+            case 'inv':
+                r = 1.0/x
             case _:
                 msg = f"Missing case match for {op}"
                 raise NotImplementedError(msg)
