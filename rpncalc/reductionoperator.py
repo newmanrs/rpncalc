@@ -8,8 +8,8 @@ class ReductionOperator(Enum):
     """
     Operators that convert n numeric values on the stack into one
     """
-    reduce_plus = 'reduce+'
-    reduce_mult = 'reduce*'
+    reduce_plus = 'sum'
+    reduce_mult = 'prod'
     mean        = 'mean'
     reduce_max  = 'max'
     reduce_min  = 'min'
