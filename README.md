@@ -5,7 +5,7 @@
 Clone repository and `pip3 install ./rpncalc` to install the calculator.
 
 ## Usage
-Calling `rpncalc` with no arguments will print a list of commands available to the calculator.  A probably out of date example is below.
+Calling `rpncalc` with no arguments will print a list of commands available to the calculator.  A likely out of date example of the help page is below.
 
 ```
 No arguments to parse. Displaying help.
