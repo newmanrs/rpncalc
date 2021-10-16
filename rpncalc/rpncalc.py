@@ -46,8 +46,6 @@ def compute_rpn(args):
         match arg:
             case _ if isinstance(arg, (int | float)):
                 stack.append(arg)
-            case _ if isinstance(arg, Constants):
-                stack.append(arg)
             case _ if hasattr(arg,'action'):
                 arg.action(stack)
             case _:
