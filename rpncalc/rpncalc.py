@@ -2,11 +2,12 @@ import sys
 
 from enum import Enum, unique
 
-from rpncalc.constants import Constants
+from rpncalc.constants import Constants, get_constant_names
 from rpncalc.idempotentoperator import IdempotentOperator
 from rpncalc.unaryoperator import UnaryOperator
 from rpncalc.binaryoperator import BinaryOperator
 from rpncalc.reductionoperator import ReductionOperator
+from rpncalc.storedvalues import get_stored_value_class
 
 def parse_args(args):
     """
@@ -23,6 +24,7 @@ def parse_args(args):
                   UnaryOperator,
                   IdempotentOperator,
                   ReductionOperator,
+                  get_stored_value_class,
                   ]:
             try:
                 parsedargs.append(t(arg))
@@ -64,9 +66,10 @@ def main():
         parsedargs = parse_args(sys.argv[1].split())
     else:
         msg = "No arguments to parse. Displaying help.\n"
+        msg += "Quote input to avoid shell expansion of special chars such as '*', '>'\n"
         msg += "Pass integers or numbers to script and apply one or more"
         msg += " of the following operators:\n\n"
-        msg += "Constants: {}\n\n".format(Constants().get_names())
+        msg += "Constants: {}\n\n".format(constants.get_constant_names())
         msg += "Idempotent Operators: {}\n\n".format(
             tuple(i.value for i in IdempotentOperator))
         msg += "Unary Operators: {}\n\n".format(

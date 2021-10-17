@@ -17,12 +17,13 @@ constants = {
     'mn'  : 1.6749274980495e-27,
     }
 
+
+def get_constant_names():
+    return tuple(constants.keys())
+
 class Constants:
 
     @classmethod
     def __call__(cls,arg):
         return constants[arg]
 
-    @classmethod
-    def get_names(cls):
-        return tuple(constants.keys())
