@@ -5,6 +5,7 @@ from rpncalc.util import take_n
 
 @unique
 class BinaryOperator(Enum):
+
     addition = '+'
     subtraction = '-'
     multiplication = '*'
@@ -14,10 +15,10 @@ class BinaryOperator(Enum):
     atan2 = 'atan2'        # atan2(y, x) input 1000 1 atan2 for ~pi/2
     log_base = 'log_base'  # 100 10 log_base gives 2
     equals = '='
-    gt     = '>'
-    gte    = '>='
-    lt     = '<'
-    lte    = '<='
+    gt = '>'
+    gte = '>='
+    lt = '<'
+    lte = '<='
 
     def action(self, stack):
 

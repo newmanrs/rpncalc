@@ -2,6 +2,8 @@ import math
 import statistics
 from enum import Enum, unique
 
+def sem(x):
+    return statistics.stdev(x)/math.sqrt(x)
 
 @unique
 class ReductionOperator(Enum):
@@ -11,12 +13,12 @@ class ReductionOperator(Enum):
 
     reduce_plus = 'sum'
     reduce_mult = 'prod'
-    mean        = 'mean'
-    reduce_max  = 'max'
-    reduce_min  = 'min'
-    stdev       = 'stdev'
-    sem         = 'sem'
-    variance    = 'var'
+    mean = 'mean'
+    reduce_max = 'max'
+    reduce_min = 'min'
+    stdev = 'stdev'
+    sem = 'sem'
+    variance = 'var'
 
     def action(self, stack):
 
@@ -36,7 +38,7 @@ class ReductionOperator(Enum):
             case o.stdev:
                 f = statistics.stdev
             case o.sem:
-                f = lambda x: statistics.stdev(x)/math.sqrt(len(x))
+                f = sem
             case o.variance:
                 f = statistics.variance
             case _:
