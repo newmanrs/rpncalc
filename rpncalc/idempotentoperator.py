@@ -12,7 +12,10 @@ class IdempotentOperator(Enum):
         o = type(self)
         match self:
             case o.print_stack:
-                print(f"Stack: {stack}")
+                if len(stack) == 1:
+                    print(f"{stack[0]}")
+                else:
+                    print(f"Stack: {stack}")
             case o.print_stored_named:
                 print(f"Stored Values {storedvalues.storage}")
 

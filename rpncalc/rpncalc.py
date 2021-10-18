@@ -38,6 +38,9 @@ def parse_args(args):
             msg = f"Unable to parse arg '{arg}'"
             raise ValueError(msg)
 
+    if parsedargs[-1] != IdempotentOperator.print_stack:
+        parsedargs.append(IdempotentOperator.print_stack)
+
     return parsedargs
 
 
@@ -92,7 +95,7 @@ def main():
     stack = compute_rpn(parsedargs)
 
     # If only one item on stack, print value, otherwise print stack
-    if len(stack) == 1:
-        print(stack[0])
-    else:
-        print(stack)
+    #if len(stack) == 1:
+    #    print(stack[0])
+    #else:
+    #    print(stack)
