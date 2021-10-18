@@ -55,6 +55,23 @@ def compute_rpn(args):
                 raise ValueError(msg)
     return stack
 
+def help():
+    msg = "No arguments to parse. Displaying help.\n"
+    msg += "Quote input to avoid shell expansion of special chars such as '*', '>'\n"
+    msg += "Pass integers or numbers to script and apply one or more"
+    msg += " of the following operators:\n\n"
+    msg += "Constants: {}\n\n".format(get_constant_names())
+    msg += "Idempotent Operators: {}\n\n".format(
+        tuple(i.value for i in IdempotentOperator))
+    msg += "Unary Operators: {}\n\n".format(
+        tuple(i.value for i in UnaryOperator))
+    msg += "Binary Operators: {}\n\n".format(
+        tuple(i.value for i in BinaryOperator))
+    msg += "Reduction Operators: {}\n\n".format(
+        tuple(i.value for i in ReductionOperator))
+    msg += "Quote input to avoid shell expansion of special chars such as '*', '>'"
+    print(msg)
+
 def main():
     """
     RPN Calculator.  Entry point to script installed by setup.py.
@@ -65,22 +82,7 @@ def main():
     elif len(sys.argv) == 2: # Args encased in string
         parsedargs = parse_args(sys.argv[1].split())
     else:
-        msg = "No arguments to parse. Displaying help.\n"
-        msg += "Quote input to avoid shell expansion of special chars such as '*', '>'\n"
-        msg += "Pass integers or numbers to script and apply one or more"
-        msg += " of the following operators:\n\n"
-        msg += "Constants: {}\n\n".format(constants.get_constant_names())
-        msg += "Idempotent Operators: {}\n\n".format(
-            tuple(i.value for i in IdempotentOperator))
-        msg += "Unary Operators: {}\n\n".format(
-            tuple(i.value for i in UnaryOperator))
-        msg += "Binary Operators: {}\n\n".format(
-            tuple(i.value for i in BinaryOperator))
-        msg += "Reduction Operators: {}\n\n".format(
-            tuple(i.value for i in ReductionOperator))
-        msg += "Quote input to avoid shell expansion of special chars such as '*', '>'"
-        print(msg)
-        sys.exit(0)
+        help(); sys.exit(0);
 
     stack = compute_rpn(parsedargs)
 
