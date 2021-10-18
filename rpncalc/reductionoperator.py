@@ -1,12 +1,14 @@
-import math, statistics
+import math
+import statistics
 from enum import Enum, unique
-from functools import reduce
+
 
 @unique
 class ReductionOperator(Enum):
     """
     Operators that convert n numeric values on the stack into one
     """
+
     reduce_plus = 'sum'
     reduce_mult = 'prod'
     mean        = 'mean'
@@ -15,7 +17,6 @@ class ReductionOperator(Enum):
     stdev       = 'stdev'
     sem         = 'sem'
     variance    = 'var'
-
 
     def action(self, stack):
 
@@ -35,7 +36,7 @@ class ReductionOperator(Enum):
             case o.stdev:
                 f = statistics.stdev
             case o.sem:
-                f = lambda x: statics.stdev(x)/sqrt(len(x))
+                f = lambda x: statistics.stdev(x)/math.sqrt(len(x))
             case o.variance:
                 f = statistics.variance
             case _:
@@ -45,4 +46,3 @@ class ReductionOperator(Enum):
         r = f(stack)
         stack.clear()
         stack.append(r)
-

@@ -21,9 +21,9 @@ constants = {
 def get_constant_names():
     return tuple(constants.keys())
 
+
 class Constants:
 
     @classmethod
-    def __call__(cls,arg):
+    def __call__(cls, arg):
         return constants[arg]
-

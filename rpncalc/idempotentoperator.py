@@ -1,6 +1,7 @@
 from enum import Enum, unique
 from . import storedvalues
 
+
 @unique
 class IdempotentOperator(Enum):
     print_stack = 'print'
@@ -18,4 +19,3 @@ class IdempotentOperator(Enum):
             case _:
                 msg = f"Missing case match for action {self}"
                 raise NotImplementedError(msg)
-

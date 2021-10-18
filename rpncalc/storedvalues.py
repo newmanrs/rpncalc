@@ -1,5 +1,5 @@
-#stack = [1,2,3,4]
 storage = dict()
+
 
 def get_stored_value_class(arg):
     """
@@ -9,28 +9,30 @@ def get_stored_value_class(arg):
     objects.  I.e. `rpncalc 1 2 3 prod store_x _x` should give 6.
     """
     if arg.startswith('store_'):
-        name   = arg[5:]
+        name = arg[5:]
         return StoredValueWrite(name)
     elif arg.startswith('_'):
-        name   = arg
+        name = arg
         return StoredValueRead(name)
     else:
         msg = 'parse failure'
         raise ValueError(msg)
+
 
 class StoredValueWrite:
 
     def __init__(self, name):
         self.name = name
 
-    def action(self,stack):
+    def action(self, stack):
         storage[self.name] = stack.pop()
+
 
 class StoredValueRead:
     def __init__(self, name):
         self.name = name
 
-    def action(self,stack):
+    def action(self, stack):
         try:
             stack.append(storage[self.name])
         except KeyError as e:

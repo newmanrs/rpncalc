@@ -2,8 +2,10 @@ import math
 from enum import Enum, unique
 from rpncalc.util import take_n
 
+
 @unique
 class UnaryOperator(Enum):
+
     sin = 'sin'
     cos = 'cos'
     tan = 'tan'
@@ -19,7 +21,7 @@ class UnaryOperator(Enum):
 
     def action(self, stack):
 
-        x = next(take_n(1,stack,self))
+        x = next(take_n(1, stack, self))
 
         o = type(self)
         match self:
@@ -52,4 +54,3 @@ class UnaryOperator(Enum):
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
         stack.append(r)
-

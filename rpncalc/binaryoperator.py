@@ -2,6 +2,7 @@ import math
 from enum import Enum, unique
 from rpncalc.util import take_n
 
+
 @unique
 class BinaryOperator(Enum):
     addition = '+'
@@ -20,7 +21,7 @@ class BinaryOperator(Enum):
 
     def action(self, stack):
 
-        v1, v0 = tuple(take_n(2,stack,self))
+        v1, v0 = tuple(take_n(2, stack, self))
 
         o = type(self)
         match self:
@@ -36,11 +37,11 @@ class BinaryOperator(Enum):
             case o.integerdivision:
                 r = v0//v1
             case o.power:
-                r = math.pow(v0,v1)
+                r = math.pow(v0, v1)
             case o.log_base:
-                r = math.log(v0,v1)
+                r = math.log(v0, v1)
             case o.atan2:
-                r = math.atan2(v0,v1)
+                r = math.atan2(v0, v1)
             case o.equals:
                 r = v0 == v1
             case o.gt:
@@ -57,4 +58,3 @@ class BinaryOperator(Enum):
                 raise NotImplementedError(msg)
 
         stack.append(r)
-
