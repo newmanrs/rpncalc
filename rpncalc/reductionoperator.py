@@ -2,8 +2,10 @@ import math
 import statistics
 from enum import Enum, unique
 
+
 def sem(x):
     return statistics.stdev(x)/math.sqrt(x)
+
 
 @unique
 class ReductionOperator(Enum):

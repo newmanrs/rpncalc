@@ -92,10 +92,4 @@ def main():
         help()
         sys.exit(0)
 
-    stack = compute_rpn(parsedargs)
-
-    # If only one item on stack, print value, otherwise print stack
-    #if len(stack) == 1:
-    #    print(stack[0])
-    #else:
-    #    print(stack)
+    compute_rpn(parsedargs)
