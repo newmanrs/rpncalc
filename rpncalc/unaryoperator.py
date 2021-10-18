@@ -3,6 +3,14 @@ from enum import Enum, unique
 from rpncalc.util import take_n
 
 
+def expmxsq(x):
+    return math.exp(-(x*x))
+
+
+def inv(x):
+    return 1.0/x
+
+
 @unique
 class UnaryOperator(Enum):
 
@@ -15,6 +23,7 @@ class UnaryOperator(Enum):
     to_int = 'int'
     exp = 'exp'
     expmxsq = 'expmxsq'    # exp(-x^2)
+    fact = '!'
     ln = 'ln'
     sqrt = 'sqrt'
     inv = 'inv'
@@ -27,30 +36,32 @@ class UnaryOperator(Enum):
         match self:
 
             case o.sin:
-                r = math.sin(x)
+                f = math.sin
             case o.cos:
-                r = math.cos(x)
+                f = math.cos
             case o.tan:
-                r = math.tan(x)
+                f = math.tan
             case o.asin:
-                r = math.asin(x)
+                f = math.asin
             case o.exp:
-                r = math.exp(x)
+                f = math.exp
             case o.ln:
-                r = math.log(x)
+                f = math.log
             case o.expmxsq:
-                r = math.exp(-(x*x))
+                f = expmxsq
+            case o.fact:
+                f = math.factorial
             case o.acos:
-                r = math.acos(x)
+                f = math.acos
             case o.atan:
-                r = math.atan(x)
+                f = math.atan
             case o.sqrt:
-                r = math.sqrt(x)
+                f = math.sqrt
             case o.to_int:
-                r = int(x)
+                f = int
             case o.inv:
-                r = 1.0/x
+                f = inv
             case _:
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
-        stack.append(r)
+        stack.append(f(x))
