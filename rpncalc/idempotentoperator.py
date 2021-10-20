@@ -5,6 +5,7 @@ from . import storedvalues
 @unique
 class IdempotentOperator(Enum):
     print_stack = 'print'
+    print_stack_or_value = 'print_sv'
     print_stored_named = 'print_store'
 
     def action(self, stack):
@@ -12,6 +13,8 @@ class IdempotentOperator(Enum):
         o = type(self)
         match self:
             case o.print_stack:
+                print(f"Stack: {stack}")
+            case o.print_stack_or_value:
                 if len(stack) == 1:
                     print(f"{stack[0]}")
                 else:
