@@ -5,7 +5,7 @@ setup(
     version='0.0.1',
     py_modules=['rpncalc'],
     packages=['rpncalc'],
-    install_requires=[
+    install_requires=['numpy'
     ],
     entry_points={
         'console_scripts': [
