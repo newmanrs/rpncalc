@@ -27,7 +27,10 @@ def parse_expression(exp, verbose=False):
     """
 
     # Arg could be one or more strings - concatenate and split them
-    exp = ' '.join(exp).split()
+    if isinstance(exp,list):
+        exp = ' '.join(exp).split()
+    else:
+        exp = exp.split()
 
     parsedargs = []
 
@@ -66,6 +69,8 @@ def parse_expression(exp, verbose=False):
 
 
 def compute_rpn(expression, verbose=False):
+
+    stack.clear()
 
     for item in expression:
         match item:
