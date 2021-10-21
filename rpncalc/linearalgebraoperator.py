@@ -76,7 +76,7 @@ class LinearAlgebraOperator(ActionEnum):
                     msg = f"Stack of len {len()} is not square"
                     raise ValueError(msg)
             case o.to_matmn:
-                M, N = self.take_2()
+                N, M = self.take_2()
                 r = self._to_mat_mn(M, N)
 
             case o.inverse:
@@ -121,6 +121,7 @@ class LinearAlgebraOperator(ActionEnum):
             case o.norm:
                 item = self.take_1()
                 r = numpy.linalg.norm(item)
+
             case o.to_stack:
                 item = self.take_1()
                 r = []
