@@ -109,7 +109,8 @@ def help():
         f"Reduction Operators: {ro}\n\n"
         f"Linear Algebra Operators {lao}\n\n"
         "Quote input to avoid shell expansion of "
-        "special chars such as '*', '>'"
+        "special chars such as '*', '>'\n"
+        "--verbose, -v to show how the stack is processed"
         )
 
     print(msg)
