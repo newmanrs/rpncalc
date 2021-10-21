@@ -25,11 +25,14 @@ class LinearAlgebraOperator(ActionEnum):
 
     hstack = 'hstack'
     vstack = 'vstack'
+
     repeat = 'repeat'
     reshape = 'reshape'
 
     normalize = 'normalize'
     norm = 'norm'
+
+    to_stack = 'to_stack'
 
     def _to_vec_n(self, n):
         return numpy.flip(self.take_n(n))
@@ -118,6 +121,11 @@ class LinearAlgebraOperator(ActionEnum):
             case o.norm:
                 item = self.take_1()
                 r = numpy.linalg.norm(item)
+            case o.to_stack:
+                item = self.take_1()
+                r = []
+                for i in item.flat: # 1D iterator for numpy
+                    r.append(i)
 
             case _:
                 msg = f"Missing case match for {self}"
