@@ -1,9 +1,8 @@
-from enum import Enum, unique
 from . import storedvalues
-from rpncalc.util import stack
+from rpncalc.util import ActionEnum, stack
 
-@unique
-class IdempotentOperator(Enum):
+
+class IdempotentOperator(ActionEnum):
     print_stack = 'print'
     print_stack_or_value = 'print_sv'
     print_stored_named = 'print_store'

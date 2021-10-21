@@ -65,16 +65,16 @@ class LinearAlgebraOperator(ActionEnum):
             case o.to_mat3:
                 r = self._to_mat_mn(3, 3)
             case o.to_matsq:
-                size = math.sqrt(len())
+                size = math.sqrt(self.stack_size())
                 if size.is_integer():
                     size = int(size)
-                    r = self._to_mat_mn(size, size, stack)
+                    r = self._to_mat_mn(size, size)
                 else:
                     msg = f"Stack of len {len()} is not square"
                     raise ValueError(msg)
             case o.to_matmn:
                 M, N = self.take_2()
-                r = self._to_mat_mn(M, N, stack)
+                r = self._to_mat_mn(M, N)
 
             case o.inverse:
                 r = numpy.linalg.inv(self.take_1())
@@ -105,7 +105,7 @@ class LinearAlgebraOperator(ActionEnum):
                 r = numpy.vstack((i, j))
 
             case o.repeat:
-                repeats,item = self.take_2()
+                repeats, item = self.take_2()
                 r = numpy.repeat(item, repeats)
 
             case o.reshape:

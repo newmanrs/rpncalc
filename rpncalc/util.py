@@ -23,6 +23,9 @@ class ActionEnum(enum.Enum):
         msg = f"No action method defined in {self}"
         raise NotImplementedError(msg)
 
+    def stack_size(self):
+        return len(stack)
+
     def take_n(self, n):
         if n == 1:
             return next(self.gen_n(1))
