@@ -1,4 +1,3 @@
-import sys
 import argparse
 
 from rpncalc.constants import Constants, get_constant_names
@@ -16,6 +15,7 @@ def parse_args():
     parser.add_argument('expression', nargs='*')
     parser.add_argument('--help', '-h', action='store_true')
     parser.add_argument('--verbose', '-v', action='store_true')
+    parser.add_argument('--debug', action='store_true')
 
     return parser.parse_args()
 
@@ -118,9 +118,9 @@ def main():
     parser = parse_args()
     if parser.help or len(parser.expression) == 0:
         help()
-        sys.exit(0)
+    else:
+        exp = parse_expression(parser.expression, parser.verbose)
+        compute_rpn(exp, parser.verbose)
 
-    exp = parse_expression(parser.expression, parser.verbose)
-    compute_rpn(exp, parser.verbose)
-
-    breakpoint()
+    if parser.debug:
+        breakpoint()
