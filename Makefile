@@ -1,4 +1,4 @@
-.phony: install test uninstall clean
+.phony: install test uninstall clean lint
 
 install:
 	@echo 'Installing'
@@ -15,3 +15,7 @@ test:
 clean:
 	@echo 'Cleaning __pycache__'
 	find . -regex '^.*\(__pycache__\|\.py[co]\)' -delete
+
+lint:
+	@echo "Lint"
+	flake8

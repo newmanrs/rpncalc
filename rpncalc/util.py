@@ -40,9 +40,11 @@ class StackAccessor:
         return self.take_n(len(stack))
 
     def push(self, value):
+        # use of += in if statement creates local binding
+        # over the global stack
         global stack
-        if isinstance(value,list):
-            stack+=value
+        if isinstance(value, list):
+            stack += value
         else:
             stack.append(value)
 

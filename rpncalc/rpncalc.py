@@ -27,7 +27,7 @@ def parse_expression(exp, verbose=False):
     """
 
     # Arg could be one or more strings - concatenate and split them
-    if isinstance(exp,list):
+    if isinstance(exp, list):
         exp = ' '.join(exp).split()
     else:
         exp = exp.split()

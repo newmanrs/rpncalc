@@ -2,8 +2,10 @@ from rpncalc.util import StackAccessor
 
 storage = dict()
 
+
 def clear_storage():
     storage.clear()
+
 
 def get_stored_value_class(arg):
     """

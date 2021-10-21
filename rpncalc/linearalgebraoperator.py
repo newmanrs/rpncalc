@@ -125,7 +125,7 @@ class LinearAlgebraOperator(ActionEnum):
             case o.to_stack:
                 item = self.take_1()
                 r = []
-                for i in item.flat: # 1D iterator for numpy
+                for i in item.flat:  # 1D iterator for numpy objs
                     r.append(i)
 
             case _:
