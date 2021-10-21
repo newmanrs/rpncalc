@@ -1,6 +1,6 @@
 import numpy
 import functools
-from rpncalc.util import ActionEnum, stack
+from rpncalc.util import ActionEnum
 
 
 def sem(x):
@@ -46,6 +46,4 @@ class ReductionOperator(ActionEnum):
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
 
-        r = f(stack)
-        stack.clear()
-        stack.append(r)
+        self.push(f(self.take_all()))

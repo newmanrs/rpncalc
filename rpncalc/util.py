@@ -2,9 +2,8 @@ import enum
 
 stack = []
 
-@enum.unique
-class ActionEnum(enum.Enum):
 
+class StackAccessor:
     def gen_n(self, n):
         """
         Generator that pops up to n values from stack.
@@ -18,10 +17,6 @@ class ActionEnum(enum.Enum):
 
         for i in range(n):
             yield stack.pop()
-
-    def action(self):
-        msg = f"No action method defined in {self}"
-        raise NotImplementedError(msg)
 
     def stack_size(self):
         return len(stack)
@@ -46,3 +41,10 @@ class ActionEnum(enum.Enum):
 
     def push(self, value):
         stack.append(value)
+
+
+@enum.unique
+class ActionEnum(StackAccessor, enum.Enum):
+    def action(self):
+        msg = f"No action method defined in {self}"
+        raise NotImplementedError(msg)

@@ -122,3 +122,5 @@ def main():
 
     exp = parse_expression(parser.expression, parser.verbose)
     compute_rpn(exp, parser.verbose)
+
+    breakpoint()

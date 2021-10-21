@@ -1,3 +1,4 @@
+from rpncalc.util import StackAccessor
 storage = dict()
 
 
@@ -19,22 +20,22 @@ def get_stored_value_class(arg):
         raise ValueError(msg)
 
 
-class StoredValueWrite:
+class StoredValueWrite(StackAccessor):
 
     def __init__(self, name):
         self.name = name
 
-    def action(self, stack):
-        storage[self.name] = stack.pop()
+    def action(self):
+        storage[self.name] = self.take_1()
 
 
-class StoredValueRead:
+class StoredValueRead(StackAccessor):
     def __init__(self, name):
         self.name = name
 
-    def action(self, stack):
+    def action(self):
         try:
-            stack.append(storage[self.name])
+            self.push(storage[self.name])
         except KeyError as e:
             k = tuple(storage.keys())
             if len(k) == 0:
