@@ -10,7 +10,7 @@ class BinaryOperator(Enum):
     subtraction = '-'
     multiplication = '*'
     division = '/'
-    integerdivision = '//'
+    integer_division = '//'
     power = '^'
     atan2 = 'atan2'        # atan2(y, x) input 1000 1 atan2 for ~pi/2
     log_base = 'log_base'  # 100 10 log_base gives 2
@@ -37,7 +37,7 @@ class BinaryOperator(Enum):
                 r = v0*v1
             case o.division:
                 r = v0/v1
-            case o.integerdivision:
+            case o.integer_division:
                 r = v0//v1
             case o.power:
                 r = math.pow(v0, v1)
