@@ -6,7 +6,9 @@ from rpncalc.idempotentoperator import IdempotentOperator
 from rpncalc.unaryoperator import UnaryOperator
 from rpncalc.binaryoperator import BinaryOperator
 from rpncalc.reductionoperator import ReductionOperator
+from rpncalc.linearalgebraoperator import LinearAlgebraOperator
 from rpncalc.storedvalues import get_stored_value_class
+from rpncalc.util import stack
 
 
 def parse_args():
@@ -37,6 +39,7 @@ def parse_expression(exp, verbose=False):
                   UnaryOperator,
                   IdempotentOperator,
                   ReductionOperator,
+                  LinearAlgebraOperator,
                   get_stored_value_class,
                   ]:
             try:
@@ -64,7 +67,6 @@ def parse_expression(exp, verbose=False):
 
 def compute_rpn(expression, verbose=False):
 
-    stack = []
     for item in expression:
         match item:
 
@@ -73,7 +75,7 @@ def compute_rpn(expression, verbose=False):
             case _ if hasattr(item, 'action'):
                 if verbose and not item == IdempotentOperator.print_stack:
                     print(f"Applying {item}")
-                item.action(stack)
+                item.action()
             case _:
                 msg = f"No known action in rpn parse loop for item '{item}'"
                 raise ValueError(msg)
@@ -87,6 +89,7 @@ def help():
     uo = tuple(i.value for i in UnaryOperator)
     bo = tuple(i.value for i in BinaryOperator)
     ro = tuple(i.value for i in ReductionOperator)
+    lao = tuple(i.value for i in LinearAlgebraOperator)
 
     msg = (
         "Displaying help.\n"
@@ -99,6 +102,7 @@ def help():
         f"Unary Operators: {uo}\n\n"
         f"Binary Operators: {bo}\n\n"
         f"Reduction Operators: {ro}\n\n"
+        f"Linear Algebra Operators {lao}\n\n"
         "Quote input to avoid shell expansion of "
         "special chars such as '*', '>'"
         )

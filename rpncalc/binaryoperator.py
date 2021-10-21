@@ -1,10 +1,9 @@
+import numpy
 import math
-from enum import Enum, unique
-from rpncalc.util import take_n
+from rpncalc.util import ActionEnum
 
 
-@unique
-class BinaryOperator(Enum):
+class BinaryOperator(ActionEnum):
 
     addition = '+'
     subtraction = '-'
@@ -22,9 +21,9 @@ class BinaryOperator(Enum):
     choose = 'choose'
     combinations = 'combo'
 
-    def action(self, stack):
+    def action(self):
 
-        v1, v0 = tuple(take_n(2, stack, self))
+        v1, v0 = self.take_2()
 
         o = type(self)
         match self:
@@ -40,11 +39,11 @@ class BinaryOperator(Enum):
             case o.integer_division:
                 r = v0//v1
             case o.power:
-                r = math.pow(v0, v1)
+                r = numpy.pow(v0, v1)
             case o.log_base:
-                r = math.log(v0, v1)
+                r = numpy.log(v0, v1)
             case o.atan2:
-                r = math.atan2(v0, v1)
+                r = numpy.arctan2(v0, v1)
             case o.equals:
                 r = v0 == v1
             case o.gt:
@@ -65,4 +64,4 @@ class BinaryOperator(Enum):
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
 
-        stack.append(r)
+        self.push(r)

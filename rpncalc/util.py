@@ -1,13 +1,45 @@
-def take_n(n, stack, action=None):
-    """
-    Generator that pops up to n values from stack.
-    Optional action gives clearer error messages.
-    """
-    if n > len(stack):
-        msg = (
-            f"Empty stack processing {action} trying "
-            f"to pop {n} values. Stack: {stack}")
-        raise IndexError(msg)
+import enum
 
-    for i in range(n):
-        yield stack.pop()
+stack = []
+
+@enum.unique
+class ActionEnum(enum.Enum):
+
+    def gen_n(self, n):
+        """
+        Generator that pops up to n values from stack.
+        Optional actor gives clearer error messages.
+        """
+        if n > len(stack):
+            msg = (
+                f"Empty stack processing {self} trying "
+                f"to pop {n} values. Stack: {stack}")
+            raise IndexError(msg)
+
+        for i in range(n):
+            yield stack.pop()
+
+    def action(self):
+        msg = f"No action method defined in {self}"
+        raise NotImplementedError(msg)
+
+    def take_n(self, n):
+        if n == 1:
+            return next(self.gen_n(1))
+        else:
+            return tuple(self.gen_n(n))
+
+    def take_1(self):
+        return self.take_n(1)
+
+    def take_2(self):
+        return self.take_n(2)
+
+    def take_3(self):
+        return self.take_n(3)
+
+    def take_all(self):
+        return self.take_n(len(stack))
+
+    def push(self, value):
+        stack.append(value)

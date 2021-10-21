@@ -1,6 +1,6 @@
 from enum import Enum, unique
 from . import storedvalues
-
+from rpncalc.util import stack
 
 @unique
 class IdempotentOperator(Enum):
@@ -8,8 +8,7 @@ class IdempotentOperator(Enum):
     print_stack_or_value = 'print_sv'
     print_stored_named = 'print_store'
 
-    def action(self, stack):
-
+    def action(self):
         o = type(self)
         match self:
             case o.print_stack:

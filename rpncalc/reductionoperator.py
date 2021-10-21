@@ -1,14 +1,13 @@
-import math
-import statistics
-from enum import Enum, unique
+import numpy
+import functools
+from rpncalc.util import ActionEnum, stack
 
 
 def sem(x):
-    return statistics.stdev(x)/math.sqrt(x)
+    return numpy.std(x, ddof=1) / numpy.sqrt(len(x)-1)
 
 
-@unique
-class ReductionOperator(Enum):
+class ReductionOperator(ActionEnum):
     """
     Operators that convert n numeric values on the stack into one
     """
@@ -22,27 +21,27 @@ class ReductionOperator(Enum):
     sem = 'sem'
     variance = 'var'
 
-    def action(self, stack):
+    def action(self):
 
         o = type(self)
         match self:
 
             case o.reduce_plus:
-                f = sum
+                f = numpy.sum
             case o.reduce_mult:
-                f = math.prod
+                f = numpy.prod
             case o.mean:
-                f = statistics.mean
+                f = numpy.mean
             case o.reduce_max:
-                f = max
+                f = numpy.max
             case o.reduce_min:
-                f = min
+                f = numpy.min
             case o.stdev:
-                f = statistics.stdev
+                f = functools.partial(numpy.std, ddof=1)
             case o.sem:
                 f = sem
             case o.variance:
-                f = statistics.variance
+                f = functools.partial(numpy.var, ddof=1)
             case _:
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)

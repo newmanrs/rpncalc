@@ -1,18 +1,21 @@
+import numpy
 import math
-from enum import Enum, unique
-from rpncalc.util import take_n
+from rpncalc.util import ActionEnum
 
 
 def expmxsq(x):
-    return math.exp(-(x*x))
+    return numpy.exp(-(x*x))
 
 
 def inv(x):
     return 1.0/x
 
 
-@unique
-class UnaryOperator(Enum):
+def uminus(x):
+    return -x
+
+
+class UnaryOperator(ActionEnum):
 
     sin = 'sin'
     cos = 'cos'
@@ -26,42 +29,46 @@ class UnaryOperator(Enum):
     fact = '!'
     ln = 'ln'
     sqrt = 'sqrt'
-    inv = 'inv'
+    inverse = '1/x'
+    uminus = 'uminus'
 
-    def action(self, stack):
+    def action(self):
 
-        x = next(take_n(1, stack, self))
+        x = self.take_1()
 
         o = type(self)
         match self:
 
             case o.sin:
-                f = math.sin
+                f = numpy.sin
             case o.cos:
-                f = math.cos
+                f = numpy.cos
             case o.tan:
-                f = math.tan
+                f = numpy.tan
             case o.asin:
-                f = math.asin
+                f = numpy.arcsin
             case o.exp:
-                f = math.exp
+                f = numpy.exp
             case o.ln:
-                f = math.log
+                f = numpy.log
             case o.expmxsq:
                 f = expmxsq
             case o.fact:
                 f = math.factorial
             case o.acos:
-                f = math.acos
+                f = numpy.arccos
             case o.atan:
-                f = math.atan
+                f = numpy.arctan
             case o.sqrt:
-                f = math.sqrt
+                f = numpy.sqrt
             case o.to_int:
                 f = int
-            case o.inv:
+            case o.inverse:
                 f = inv
+            case o.uminus:
+                f = uminus
             case _:
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
-        stack.append(f(x))
+
+        self.push(f(x))
