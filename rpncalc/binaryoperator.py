@@ -39,7 +39,7 @@ class BinaryOperator(ActionEnum):
             case o.integer_division:
                 r = v0//v1
             case o.power:
-                r = numpy.pow(v0, v1)
+                r = numpy.power(v0, v1)
             case o.log_base:
                 r = numpy.log(v0, v1)
             case o.atan2:

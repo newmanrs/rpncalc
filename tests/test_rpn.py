@@ -16,9 +16,9 @@ class TestRPNCalc(unittest.TestCase):
         if clear_stored:
             clear_storage()
         if len(ans) == 1:
-            return ans[0]
-        else:
-            return ans
+            ans = ans[0]
+        print(ans)
+        return ans
 
     def test_numerals(self):
         expr = "1 1e3 1.01"
@@ -36,6 +36,11 @@ class TestRPNCalc(unittest.TestCase):
         expr = "pi e -"
         ans = self.run_from_expr(expr)
         self.assertEqual(ans, numpy.pi - numpy.e)
+
+    def test_powers(self):
+        expr = "2 8 ^"
+        ans = self.run_from_expr(expr)
+        self.assertEqual(ans, 256)
 
     def test_atan2(self):
         expr = "100000 1 atan2 pi 2 / -"
