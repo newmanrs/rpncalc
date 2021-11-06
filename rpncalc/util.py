@@ -5,10 +5,7 @@ stack = []
 
 class StackAccessor:
     def gen_n(self, n):
-        """
-        Generator that pops up to n values from stack.
-        Optional actor gives clearer error messages.
-        """
+
         if n > len(stack):
             msg = (
                 f"Empty stack processing {self} trying "
@@ -41,7 +38,7 @@ class StackAccessor:
 
     def push(self, value):
         # use of += in if statement creates local binding
-        # over the global stack
+        # shrug python things
         global stack
         if isinstance(value, list):
             stack += value

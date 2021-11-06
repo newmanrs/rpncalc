@@ -6,6 +6,7 @@ from rpncalc.unaryoperator import UnaryOperator
 from rpncalc.binaryoperator import BinaryOperator
 from rpncalc.reductionoperator import ReductionOperator
 from rpncalc.linearalgebraoperator import LinearAlgebraOperator
+from rpncalc.stackoperator import StackOperator
 from rpncalc.storedvalues import get_stored_value_class
 from rpncalc.util import stack
 
@@ -15,6 +16,7 @@ def parse_args():
     parser.add_argument('expression', nargs='*')
     parser.add_argument('--help', '-h', action='store_true')
     parser.add_argument('--verbose', '-v', action='store_true')
+    parser.add_argument('--interactive', '-i', action='store_true')
     parser.add_argument('--debug', action='store_true')
 
     return parser.parse_args()
@@ -43,6 +45,7 @@ def parse_expression(exp, verbose=False):
                   IdempotentOperator,
                   ReductionOperator,
                   LinearAlgebraOperator,
+                  StackOperator,
                   get_stored_value_class,
                   ]:
             try:
@@ -63,14 +66,12 @@ def parse_expression(exp, verbose=False):
     iops = IdempotentOperator.print_stack
     iopsv = IdempotentOperator.print_stack_or_value
     if not (parsedargs[-1] == iops or parsedargs[-1] == iopsv):
-        parsedargs.append(IdempotentOperator.print_stack_or_value)
+        parsedargs.append(iopsv)
 
     return parsedargs
 
 
 def compute_rpn(expression, verbose=False):
-
-    stack.clear()
 
     for item in expression:
         match item:
@@ -95,6 +96,7 @@ def help():
     bo = tuple(i.value for i in BinaryOperator)
     ro = tuple(i.value for i in ReductionOperator)
     lao = tuple(i.value for i in LinearAlgebraOperator)
+    so = tuple(i.value for i in StackOperator)
 
     msg = (
         "Displaying help.\n"
@@ -108,6 +110,7 @@ def help():
         f"Binary Operators: {bo}\n\n"
         f"Reduction Operators: {ro}\n\n"
         f"Linear Algebra Operators {lao}\n\n"
+        f"Stack Operators {so}\n\n"
         "Quote input to avoid shell expansion of "
         "special chars such as '*', '>'\n"
         "--verbose, -v to show how the stack is processed"
@@ -116,12 +119,23 @@ def help():
     print(msg)
 
 
+def interactive_loop(parser):
+    while True:
+        exp = input("Enter expression:\n")
+        exp = parse_expression(exp, parser.verbose)
+        compute_rpn(exp, parser.verbose)
+
+
 def main():
     """
     RPN Calculator.  Entry point to script installed by setup.py.
     """
 
     parser = parse_args()
+
+    if parser.interactive:
+        interactive_loop(parser)
+
     if parser.help or len(parser.expression) == 0:
         help()
     else:
