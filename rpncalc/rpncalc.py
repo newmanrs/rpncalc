@@ -111,9 +111,8 @@ def help():
         f"Reduction Operators: {ro}\n\n"
         f"Linear Algebra Operators {lao}\n\n"
         f"Stack Operators {so}\n\n"
-        "Quote input to avoid shell expansion of "
-        "special chars such as '*', '>'\n"
-        "--verbose, -v to show how the stack is processed"
+        "--verbose, -v, to show how the stack is processed\n"
+        "--interactive, -i, for interactive input loop"
         )
 
     print(msg)
