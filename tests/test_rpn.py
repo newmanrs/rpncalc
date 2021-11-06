@@ -1,12 +1,13 @@
 import unittest
 import numpy
 from rpncalc.rpncalc import parse_expression, compute_rpn
-from rpncalc.storedvalues import clear_storage
+import rpncalc.storedvalues
+import rpncalc.util
 
 
 class TestRPNCalc(unittest.TestCase):
 
-    def run_from_expr(self, expr, clear_stored=True):
+    def run_from_expr(self, expr, clear_stored=True, clear_stack=True):
         print(f"\n\"{expr}\"")
         # Parse and remove last (print) statement since
         # the last item is a print statement
@@ -14,7 +15,9 @@ class TestRPNCalc(unittest.TestCase):
         # Clear the named storage variables to ensure
         # that unittests are independent of order
         if clear_stored:
-            clear_storage()
+            rpncalc.storedvalues.clear_storage()
+        if clear_stack:
+            rpncalc.util.clear_stack()
         if len(ans) == 1:
             ans = ans[0]
         print(ans)

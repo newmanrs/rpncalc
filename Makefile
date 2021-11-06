@@ -1,4 +1,4 @@
-.phony: install test uninstall clean lint
+.phony: install uninstall test clean lint
 
 install:
 	@echo 'Installing'
