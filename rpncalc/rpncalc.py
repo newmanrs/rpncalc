@@ -125,8 +125,11 @@ def help():
 def interactive_loop(parser):
     while True:
         exp = input("Enter expression:\n")
-        exp = parse_expression(exp, parser.verbose)
-        compute_rpn(exp, parser.verbose)
+        try:
+            exp = parse_expression(exp, parser.verbose)
+            compute_rpn(exp, parser.verbose)
+        except Exception as e:
+            print(str(e))
 
 
 def main():
