@@ -1,5 +1,6 @@
 import argparse
 import copy
+import readline
 
 from rpncalc.constants import Constants, get_constant_names
 from rpncalc.idempotentoperator import IdempotentOperator
