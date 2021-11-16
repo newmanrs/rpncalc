@@ -1,6 +1,7 @@
 import argparse
 import copy
-import readline
+import readline  # noqa: F401
+# Ignore F401 import unused, readline has sideeffects on func 'input'
 
 from rpncalc.constants import Constants, get_constant_names
 from rpncalc.idempotentoperator import IdempotentOperator
@@ -36,7 +37,7 @@ def parse_expression(exp, verbose=False):
     else:
         exp = exp.split()
 
-    parsedargs = []
+    parsedexp = []
 
     for arg in exp:
         parsed = False
@@ -51,10 +52,11 @@ def parse_expression(exp, verbose=False):
                   get_stored_value_class,
                   ]:
             try:
-                parsedargs.append(t(arg))
+                parsedexp.append(t(arg))
                 parsed = True
-                if verbose:
-                    parsedargs.append(IdempotentOperator.print_stack)
+                # if verbose:
+                #     parsedargs.append(IdempotentOperator.print_stack)
+
             except (ValueError, KeyError):
                 # Parse fails from Constant() are KeyError, from the Enum
                 # operator classes ValueErrors
@@ -65,12 +67,28 @@ def parse_expression(exp, verbose=False):
             msg = f"Unable to parse arg '{arg}'"
             raise ValueError(msg)
 
-    iops = IdempotentOperator.print_stack
-    iopsv = IdempotentOperator.print_stack_or_value
-    if not (parsedargs[-1] == iops or parsedargs[-1] == iopsv):
-        parsedargs.append(iopsv)
-
-    return parsedargs
+    # Program should add print statement to end of expression unless
+    # one already exists.  If verbose, add print statements after all
+    # operators, and last in series of int/floats
+    if not verbose:
+        # Final print - only print singular value if stack has one item
+        iops = IdempotentOperator.print_stack
+        iopsv = IdempotentOperator.print_stack_or_value
+        if not (parsedexp[-1] == iops or parsedexp[-1] == iopsv):
+            parsedexp.append(iopsv)
+        return parsedexp
+    else:  # verbose
+        verboseexp = []
+        for item in parsedexp:
+            if isinstance(item, (int | float)):
+                verboseexp.append(item)
+            else:
+                if item != IdempotentOperator.print_stack:
+                    verboseexp.append(IdempotentOperator.print_stack)
+                verboseexp.append(item)
+        if verboseexp[-1] != IdempotentOperator.print_stack:
+            verboseexp.append(IdempotentOperator.print_stack)
+        return verboseexp
 
 
 def compute_rpn(expression, verbose=False, return_copy=True):
