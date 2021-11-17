@@ -89,7 +89,9 @@ def help_string():
         f"Reduction Operators: {ro}\n"
         f"Linear Algebra Operators {lao}\n"
         f"Stack Operators {so}\n"
-        f"Constants: {c}\n"
+        f"Constants: {c}\n\n"
+        f"Use help(cmd) or help_cmd for help on specific operators"
+        " such as help_matsq\n\n"
         "--verbose, -v, to show how the stack is processed\n"
         "--interactive, -i, for interactive input loop"
         )
