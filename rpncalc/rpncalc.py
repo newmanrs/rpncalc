@@ -4,14 +4,8 @@ import readline  # noqa: F401
 # Ignore F401 import unused, readline has sideeffects on func 'input'
 import traceback
 
-from rpncalc.constants import Constant
 from rpncalc.idempotentoperator import IdempotentOperator
-from rpncalc.unaryoperator import UnaryOperator
-from rpncalc.binaryoperator import BinaryOperator
-from rpncalc.reductionoperator import ReductionOperator
-from rpncalc.linearalgebraoperator import LinearAlgebraOperator
-from rpncalc.stackoperator import StackOperator
-from rpncalc.storedvalues import get_stored_value_class
+from rpncalc.parseinput import parse_expression
 from rpncalc.util import stack
 
 
@@ -24,75 +18,6 @@ def parse_args():
     parser.add_argument('--debug', action='store_true')
 
     return parser.parse_args()
-
-
-def parse_expression(strexp, verbose=False):
-    """
-    Convert the string expression to numeric values or appropriate
-    actions or operators for the calculator reverse polish evaluation loop.
-    """
-
-    # Arg could be one or more strings - concatenate and split them
-    if isinstance(strexp, list):
-        strexp = ' '.join(strexp).split()
-    else:
-        strexp = strexp.split()
-
-    if len(strexp) == 0:
-        return []
-
-    parsedexp = []
-
-    for arg in strexp:
-        parsed = False
-        for t in [int, float,
-                  Constant,
-                  BinaryOperator,
-                  UnaryOperator,
-                  IdempotentOperator,
-                  ReductionOperator,
-                  LinearAlgebraOperator,
-                  StackOperator,
-                  get_stored_value_class,
-                  ]:
-            try:
-                parsedexp.append(t(arg))
-                parsed = True
-                # if verbose:
-                #     parsedargs.append(IdempotentOperator.print_stack)
-
-            except (ValueError, KeyError):
-                # Parse fails from Constant() are KeyError, from the Enum
-                # operator classes ValueErrors
-                pass
-            else:
-                break
-        if not parsed:
-            msg = f"Unable to parse arg '{arg}'"
-            raise ValueError(msg)
-
-    # Program should add print statement to end of expression unless
-    # one already exists.  If verbose, add print statements after all
-    # operators, and last in series of int/floats
-    if not verbose:
-        # Final print - only print singular value if stack has one item
-        iops = IdempotentOperator.print_stack
-        iopsv = IdempotentOperator.print_stack_or_value
-        if not (parsedexp[-1] == iops or parsedexp[-1] == iopsv):
-            parsedexp.append(iopsv)
-        return parsedexp
-    else:  # verbose
-        verboseexp = []
-        for item in parsedexp:
-            if isinstance(item, (int | float)):
-                verboseexp.append(item)
-            else:
-                if item != IdempotentOperator.print_stack:
-                    verboseexp.append(IdempotentOperator.print_stack)
-                verboseexp.append(item)
-        if verboseexp[-1] != IdempotentOperator.print_stack:
-            verboseexp.append(IdempotentOperator.print_stack)
-        return verboseexp
 
 
 def compute_rpn(expression, verbose=False, return_copy=True):
@@ -115,36 +40,6 @@ def compute_rpn(expression, verbose=False, return_copy=True):
         return stack
 
 
-def print_help():
-
-    c = tuple(i.value for i in Constant)
-    io = tuple(i.value for i in IdempotentOperator)
-    uo = tuple(i.value for i in UnaryOperator)
-    bo = tuple(i.value for i in BinaryOperator)
-    ro = tuple(i.value for i in ReductionOperator)
-    lao = tuple(i.value for i in LinearAlgebraOperator)
-    so = tuple(i.value for i in StackOperator)
-
-    msg = (
-        "Displaying help.\n"
-        "Quote input to avoid shell expansion of special "
-        "chars such as '*', '>'\n"
-        "Pass integers or numbers to script and apply one or more"
-        " of the following operators:\n\n"
-        f"Constants: {c}\n\n"
-        f"Idempotent Operators: {io}\n\n"
-        f"Unary Operators: {uo}\n\n"
-        f"Binary Operators: {bo}\n\n"
-        f"Reduction Operators: {ro}\n\n"
-        f"Linear Algebra Operators {lao}\n\n"
-        f"Stack Operators {so}\n\n"
-        "--verbose, -v, to show how the stack is processed\n"
-        "--interactive, -i, for interactive input loop"
-        )
-
-    print(msg)
-
-
 def interactive_loop(parser):
     while True:
         exp = input("Enter expression:\n")
@@ -152,8 +47,8 @@ def interactive_loop(parser):
             exp = parse_expression(exp, parser.verbose)
             if len(exp) > 0:
                 compute_rpn(exp, parser.verbose)
-            else:
-                print_help()
+            # else:
+            #    print_help()
         except Exception as e:
             traceback.print_exception(e)
 
@@ -168,11 +63,8 @@ def main():
     if parser.interactive:
         interactive_loop(parser)
 
-    if parser.help or len(parser.expression) == 0:
-        print_help()
-    else:
-        exp = parse_expression(parser.expression, parser.verbose)
-        compute_rpn(exp, parser.verbose)
+    exp = parse_expression(parser.expression, parser.verbose)
+    compute_rpn(exp, parser.verbose)
 
     if parser.debug:
         breakpoint()

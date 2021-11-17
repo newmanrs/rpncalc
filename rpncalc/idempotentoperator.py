@@ -1,5 +1,5 @@
 import sys
-from . import storedvalues
+from rpncalc import storedvalues
 from rpncalc.util import ActionEnum, stack
 
 

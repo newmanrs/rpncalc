@@ -5,6 +5,7 @@ class StackOperator(ActionEnum):
     clear = 'clear'
     swap2 = 'swap2'
     reverse = 'reverse'
+    pop_last = 'pop'
 
     def action(self):
         o = type(self)
