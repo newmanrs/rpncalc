@@ -1,38 +1,55 @@
 import numpy
 import math
-from rpncalc.util import ActionEnum
+from rpncalc.util import ActionEnum, stack
 
 
 class LinearAlgebraOperator(ActionEnum):
 
-    to_vec2 = 'vec2'
-    to_vec3 = 'vec3'
-    to_vec_all = 'veca'
-    to_vecn = 'vecn'
+    to_vec2 = 'vec2', \
+        "Pop two values and merge into a vector"
+    to_vec3 = 'vec3', \
+        "Pop three values and merge into a vector"
+    to_vec_all = 'veca', \
+        "Pop entire stack and merge into a vector"
+    to_vecn = 'vecn', \
+        "Pop prior value as 'n' before " \
+        "popping n values into a vector"
     dotproduct = 'dot'
     crossproduct = 'cross'
-    to_mat2 = 'mat2'
-    to_mat3 = 'mat3'
-    to_matsq = 'matsq'
-    to_matmn = 'matmn'
+    to_mat2 = 'mat2', \
+        "Pop four values and make 2x2 matrix"
+    to_mat3 = 'mat3', \
+        "Pop 9 values and make 3x3 matrix"
+    to_matsq = 'matsq', \
+        "Pop stack to square matrix." \
+        " Errors if non-square length of items"
+    to_matmn = 'matmn', \
+        "Pop two values for row m and col n" \
+        " and then pop m*n values and return matrix." \
+        " Ex. '1 2 3 4 5 6 3 2 matmn' gives" \
+        " array([[1,2],[3,4],[5,6]])"
+
     determinant = 'det'
     inverse = 'inv'
     transpose = 'T'
 
-    unit_vec_x = 'e_x'
-    unit_vec_y = 'e_y'
-    unit_vec_z = 'e_z'
+    unit_vec_x = 'e_x', "vec3(1,0,0)"
+    unit_vec_y = 'e_y', "vec3(0,1,0)"
+    unit_vec_z = 'e_z', "vec3(0,0,1)"
 
-    hstack = 'hstack'
-    vstack = 'vstack'
+    hstack = 'hstack', "Stack vectors horizontally" \
+        "Ex. '1, 2 vec2 3 4 vec2 hstack' gives array([1,2,3,4])"
+    vstack = 'vstack', "Stack vectors vertically" \
+        "Ex. '1, 2 vec2 3 4 vec2 vstack' gives array([[1,2][3,4]])"
 
     repeat = 'repeat'
     reshape = 'reshape'
 
-    normalize = 'normalize'
-    norm = 'norm'
+    normalize = 'normalize', "normalize item on top of stack"
+    norm = 'norm', "norm of value, vector or matrix on top of stack"
 
-    to_stack = 'to_stack'
+    to_stack = 'to_stack', "flattens numpy object with numpy.flat" \
+        ", and places on stack"
 
     def _to_vec_n(self, n):
         return numpy.flip(self.take_n(n))
@@ -73,7 +90,7 @@ class LinearAlgebraOperator(ActionEnum):
                     size = int(size)
                     r = self._to_mat_mn(size, size)
                 else:
-                    msg = f"Stack of len {len()} is not square"
+                    msg = f"Stack of len {len(stack)} is not square"
                     raise ValueError(msg)
             case o.to_matmn:
                 N, M = self.take_2()

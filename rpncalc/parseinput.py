@@ -137,6 +137,9 @@ class Help():
         elif string.startswith('help(') and string.endswith(')'):
             cmd = string[5:-1]
             return HelpCommand(cmd)
+        elif string.startswith('help_'):
+            cmd = string[5:]
+            return HelpCommand(cmd)
         else:
             raise ValueError
 

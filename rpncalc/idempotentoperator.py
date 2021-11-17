@@ -4,9 +4,12 @@ from rpncalc.util import ActionEnum, stack
 
 
 class IdempotentOperator(ActionEnum):
-    print_stack = 'print'
-    print_stack_or_value = 'print_sv'
-    print_stored_named = 'print_store'
+    print_stack = 'print', "Prints the stack"
+    print_stack_or_value = 'print_sv', \
+        "Prints the whole stack, or a single value if" \
+        " the stack contains only said value"
+    print_stored_named = 'print_store', \
+        "Prints the names and values of all stored constants"
     quit = 'quit'
 
     def action(self):

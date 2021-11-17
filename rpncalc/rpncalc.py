@@ -21,7 +21,7 @@ def parse_args():
 
 
 def compute_rpn(expression, verbose=False, return_copy=True):
-    backup = copy.deepcopy(stack) # Rollback if expression throws
+    backup = copy.deepcopy(stack)   # Rollback if expression throws
     try:
         for item in expression:
             match item:
@@ -33,8 +33,8 @@ def compute_rpn(expression, verbose=False, return_copy=True):
                         print(f"Applying {item}")
                     item.action()
                 case _:
-                    msg = f"No known action in rpn parse loop for item '{item}'"
-                    raise ValueError(msg)
+                    s = f"No known action in rpn parse loop for item '{item}'"
+                    raise ValueError(s)
     except Exception as e:
         stack.clear()
         for item in backup:

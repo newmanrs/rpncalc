@@ -17,9 +17,9 @@ class ReductionOperator(ActionEnum):
     mean = 'mean'
     reduce_max = 'max'
     reduce_min = 'min'
-    stdev = 'stdev'
-    sem = 'sem'
-    variance = 'var'
+    stdev = 'stdev', "Sample standard deviation (N-1 DoF)"
+    sem = 'sem', "Sample standard error of the mean (N-1 DoF)"
+    variance = 'var', "Sample variance (N-1 DoF)"
 
     def action(self):
 
