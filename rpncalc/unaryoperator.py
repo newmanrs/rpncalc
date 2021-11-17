@@ -29,6 +29,7 @@ class UnaryOperator(ActionEnum):
         "computes exp(-x^2)"
     fact = '!'
     ln = 'ln'
+    log10 = 'log10'
     sqrt = 'sqrt'
     inverse = '1/x'
     uminus = 'uminus'
@@ -52,6 +53,8 @@ class UnaryOperator(ActionEnum):
                 f = numpy.exp
             case o.ln:
                 f = numpy.log
+            case o.log10:
+                f = numpy.log10
             case o.expmxsq:
                 f = expmxsq
             case o.fact:
