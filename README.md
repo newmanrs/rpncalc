@@ -49,4 +49,31 @@ Stack: [array([[ 0.6,  0. , -0.2],
 Applying LinearAlgebraOperator.dotproduct
 Stack: [array([4., 2., 3.])]
 ```
+Items can also be stored as named constants by prefixing the desired name with `store_`, to be retrieved by prefixing an `_` later.  These variables are stored in a dictionary and can be accessed until overwritten.  A usage example calculating the vapor pressure of ethanol via Antoine's equation for the vapor pressure of ethanol is given below.
+
+`rpncalc -v 8.2042 store_A 1642.9 store_B 230.30 store_C 10 _A _B _C 78.32 + / - ^`
+gives output:
+```
+Stack: [8.2042]
+Applying <rpncalc.storedvalues.StoredValueWrite object at 0x7f34d3bbdfc0>
+Stack: [1642.9]
+Applying <rpncalc.storedvalues.StoredValueWrite object at 0x7f34d3bbe110>
+Stack: [230.3]
+Applying <rpncalc.storedvalues.StoredValueWrite object at 0x7f34d3bbe170>
+Stack: [10]
+Applying <rpncalc.storedvalues.StoredValueRead object at 0x7f34d3bbe0e0>
+Stack: [10, 8.2042]
+Applying <rpncalc.storedvalues.StoredValueRead object at 0x7f34d3bbe050>
+Stack: [10, 8.2042, 1642.9]
+Applying <rpncalc.storedvalues.StoredValueRead object at 0x7f34d3bbdff0>
+Stack: [10, 8.2042, 1642.9, 230.3, 78.32]
+Applying BinaryOperator.addition
+Stack: [10, 8.2042, 1642.9, 308.62]
+Applying BinaryOperator.division
+Stack: [10, 8.2042, 5.323375024301731]
+Applying BinaryOperator.subtraction
+Stack: [10, 2.8808249756982693]
+Applying BinaryOperator.power
+Stack: [760.0199208394923]
+```
 
