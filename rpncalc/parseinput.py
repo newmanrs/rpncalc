@@ -42,40 +42,30 @@ def parse_expression(strexp, verbose=False):
             try:
                 parsedexp.append(t(arg))
                 parsed = True
-                # if verbose:
-                #     parsedargs.append(IdempotentOperator.print_stack)
 
             except (ValueError, KeyError):
                 # Parse fails from Constant() are KeyError, from the Enum
                 # operator classes ValueErrors
                 pass
+
             else:
                 break
+
         if not parsed:
             msg = f"Unable to parse arg '{arg}'"
             raise ValueError(msg)
-
-    # Program should add print statement to end of expression unless
-    # one already exists.  If verbose, add print statements after all
-    # operators, and last in series of int/floats
     if not verbose:
-        # Final print - only print singular value if stack has one item
-        iops = IdempotentOperator.print_stack
-        iopsv = IdempotentOperator.print_stack_or_value
-        if not (parsedexp[-1] == iops or parsedexp[-1] == iopsv):
-            parsedexp.append(iopsv)
         return parsedexp
-    else:  # verbose
+    else:
         verboseexp = []
         for item in parsedexp:
             if isinstance(item, (int | float)):
                 verboseexp.append(item)
             else:
-                if item != IdempotentOperator.print_stack:
+                if (item != IdempotentOperator.print_stack or
+                        not isinstance(item, HelpCommand)):
                     verboseexp.append(IdempotentOperator.print_stack)
                 verboseexp.append(item)
-        if verboseexp[-1] != IdempotentOperator.print_stack:
-            verboseexp.append(IdempotentOperator.print_stack)
         return verboseexp
 
 
@@ -129,11 +119,12 @@ class HelpCommand():
     def action(self):
         # Print what we know about the command
         msg = (
-            f"Help for cmd {self.cmd}\n"
+            f"Help for cmd '{self.cmd}'\n"
             f"Applies operator {self.op}\n"
             )
         if hasattr(self.op, 'help'):
-            msg += self.op.help()
+            if m := self.op.help():
+                msg += m
         print(msg)
 
 

@@ -10,8 +10,7 @@ class Constant(ActionEnum):
 
     def help(self):
         msg = f"Constant {self.value} is {self.constant_value}."
-        if self.description:
-            msg += f" {self.description}."
+        msg += super().help()
         return msg
 
     pi = 'pi', math.pi, "Value of pi"

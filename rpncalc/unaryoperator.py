@@ -25,7 +25,8 @@ class UnaryOperator(ActionEnum):
     atan = 'atan'
     to_int = 'int'
     exp = 'exp'
-    expmxsq = 'expmxsq'    # exp(-x^2)
+    expmxsq = 'expmxsq', \
+        "computes exp(-x^2)"
     fact = '!'
     ln = 'ln'
     sqrt = 'sqrt'

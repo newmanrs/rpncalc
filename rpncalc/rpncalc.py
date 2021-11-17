@@ -46,9 +46,8 @@ def interactive_loop(parser):
         try:
             exp = parse_expression(exp, parser.verbose)
             if len(exp) > 0:
-                compute_rpn(exp, parser.verbose)
-            # else:
-            #    print_help()
+                ans = compute_rpn(exp, parser.verbose)
+                print(f"Stack : {ans}")
         except Exception as e:
             traceback.print_exception(e)
 
@@ -64,7 +63,8 @@ def main():
         interactive_loop(parser)
 
     exp = parse_expression(parser.expression, parser.verbose)
-    compute_rpn(exp, parser.verbose)
+    ans = compute_rpn(exp, parser.verbose)
+    print(f"Stack: {ans}")
 
     if parser.debug:
         breakpoint()

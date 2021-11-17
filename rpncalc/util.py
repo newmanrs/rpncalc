@@ -54,6 +54,13 @@ class StackAccessor:
 @enum.unique
 class ActionEnum(StackAccessor, enum.Enum):
 
+    def __init__(self, value, description=None):
+        """
+        Allow for optional description as optional second parameter
+        for commands in the enum values
+        """
+        self.description = description
+
     def __new__(cls, *args):
         """
         Override the value of an enum being the full tuple
@@ -69,3 +76,7 @@ class ActionEnum(StackAccessor, enum.Enum):
     def action(self):
         msg = f"No action method defined in {self}"
         raise NotImplementedError(msg)
+
+    def help(self):
+        if self.description:
+            return f" {self.description}"

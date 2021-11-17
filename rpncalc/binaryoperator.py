@@ -11,8 +11,11 @@ class BinaryOperator(ActionEnum):
     division = '/'
     integer_division = '//'
     power = '^'
-    atan2 = 'atan2'        # atan2(y, x) input 1000 1 atan2 for ~pi/2
-    log_base = 'log_base'  # 100 10 log_base gives 2
+    atan2 = 'atan2', \
+        "Returns quadrant correct polar coordinate theta = atan2(y,x)"
+    log_base = 'log_base', \
+        "Logarithm with prior arg as base" \
+        "Example: 1000 10 log_base returns 3"
     equals = '='
     gt = '>'
     gte = '>='
@@ -41,7 +44,7 @@ class BinaryOperator(ActionEnum):
             case o.power:
                 r = numpy.power(v0, v1)
             case o.log_base:
-                r = numpy.log(v0, v1)
+                r = numpy.log(v0)/numpy.log(v1)
             case o.atan2:
                 r = numpy.arctan2(v0, v1)
             case o.equals:
