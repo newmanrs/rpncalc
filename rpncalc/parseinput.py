@@ -120,7 +120,7 @@ class HelpCommand():
         # Print what we know about the command
         msg = (
             f"Help for cmd '{self.cmd}'\n"
-            f"Applies operator {self.op}\n"
+            f"Applies operator {self.op}."
             )
         if hasattr(self.op, 'help'):
             if m := self.op.help():

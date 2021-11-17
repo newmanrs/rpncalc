@@ -9,9 +9,7 @@ class TestRPNCalc(unittest.TestCase):
 
     def run_from_expr(self, expr, clear_stored=True, clear_stack=True):
         print(f"\n\"{expr}\"")
-        # Parse and remove last (print) statement since
-        # the last item is a print statement
-        ans = compute_rpn(parse_expression(expr)[:-1])
+        ans = compute_rpn(parse_expression(expr))
         # Clear the named storage variables to ensure
         # that unittests are independent of order
         if clear_stored:

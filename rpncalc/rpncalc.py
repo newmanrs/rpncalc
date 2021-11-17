@@ -21,19 +21,26 @@ def parse_args():
 
 
 def compute_rpn(expression, verbose=False, return_copy=True):
+    backup = copy.deepcopy(stack) # Rollback if expression throws
+    try:
+        for item in expression:
+            match item:
 
-    for item in expression:
-        match item:
+                case _ if isinstance(item, (int | float)):
+                    stack.append(item)
+                case _ if hasattr(item, 'action'):
+                    if verbose and not item == IdempotentOperator.print_stack:
+                        print(f"Applying {item}")
+                    item.action()
+                case _:
+                    msg = f"No known action in rpn parse loop for item '{item}'"
+                    raise ValueError(msg)
+    except Exception as e:
+        stack.clear()
+        for item in backup:
+            stack.append(item)
+        raise e
 
-            case _ if isinstance(item, (int | float)):
-                stack.append(item)
-            case _ if hasattr(item, 'action'):
-                if verbose and not item == IdempotentOperator.print_stack:
-                    print(f"Applying {item}")
-                item.action()
-            case _:
-                msg = f"No known action in rpn parse loop for item '{item}'"
-                raise ValueError(msg)
     if return_copy:
         return copy.deepcopy(stack)
     else:
