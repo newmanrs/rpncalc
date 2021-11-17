@@ -2,8 +2,9 @@ import argparse
 import copy
 import readline  # noqa: F401
 # Ignore F401 import unused, readline has sideeffects on func 'input'
+import traceback
 
-from rpncalc.constants import Constants, get_constant_names
+from rpncalc.constants import Constant
 from rpncalc.idempotentoperator import IdempotentOperator
 from rpncalc.unaryoperator import UnaryOperator
 from rpncalc.binaryoperator import BinaryOperator
@@ -25,24 +26,27 @@ def parse_args():
     return parser.parse_args()
 
 
-def parse_expression(exp, verbose=False):
+def parse_expression(strexp, verbose=False):
     """
     Convert the string expression to numeric values or appropriate
     actions or operators for the calculator reverse polish evaluation loop.
     """
 
     # Arg could be one or more strings - concatenate and split them
-    if isinstance(exp, list):
-        exp = ' '.join(exp).split()
+    if isinstance(strexp, list):
+        strexp = ' '.join(strexp).split()
     else:
-        exp = exp.split()
+        strexp = strexp.split()
+
+    if len(strexp) == 0:
+        return []
 
     parsedexp = []
 
-    for arg in exp:
+    for arg in strexp:
         parsed = False
         for t in [int, float,
-                  Constants(),
+                  Constant,
                   BinaryOperator,
                   UnaryOperator,
                   IdempotentOperator,
@@ -111,9 +115,9 @@ def compute_rpn(expression, verbose=False, return_copy=True):
         return stack
 
 
-def help():
+def print_help():
 
-    c = get_constant_names()
+    c = tuple(i.value for i in Constant)
     io = tuple(i.value for i in IdempotentOperator)
     uo = tuple(i.value for i in UnaryOperator)
     bo = tuple(i.value for i in BinaryOperator)
@@ -146,9 +150,12 @@ def interactive_loop(parser):
         exp = input("Enter expression:\n")
         try:
             exp = parse_expression(exp, parser.verbose)
-            compute_rpn(exp, parser.verbose)
+            if len(exp) > 0:
+                compute_rpn(exp, parser.verbose)
+            else:
+                print_help()
         except Exception as e:
-            print(str(e))
+            traceback.print_exception(e)
 
 
 def main():
@@ -162,7 +169,7 @@ def main():
         interactive_loop(parser)
 
     if parser.help or len(parser.expression) == 0:
-        help()
+        print_help()
     else:
         exp = parse_expression(parser.expression, parser.verbose)
         compute_rpn(exp, parser.verbose)

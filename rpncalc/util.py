@@ -53,6 +53,19 @@ class StackAccessor:
 
 @enum.unique
 class ActionEnum(StackAccessor, enum.Enum):
+
+    def __new__(cls, *args):
+        """
+        Override the value of an enum being the full tuple
+        on rhs of equals to being the first member only,
+        allowing for things like comments or help strings to
+        be embedded into different commands.
+        """
+
+        obj = object.__new__(cls)
+        obj._value_ = args[0]
+        return obj
+
     def action(self):
         msg = f"No action method defined in {self}"
         raise NotImplementedError(msg)

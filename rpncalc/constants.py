@@ -1,29 +1,27 @@
 import math
-
-constants = {
-    'pi':   math.pi,
-    'tau':  2*math.pi,
-    'e':    math.e,
-    'c':    299792458,
-    'h':    6.62607015e-34,
-    'mu0':  1.2566370621219e-6,
-    'Na':   6.02214076e23,
-    'kb':   1.380649e-23,
-    'R':    8.314462618,
-    'G':    6.6743015e-11,
-    'g':    9.80665,
-    'me':   9.109383701528e-31,
-    'mp':   1.6726219236951e-27,
-    'mn':   1.6749274980495e-27,
-    }
+from rpncalc.util import ActionEnum
 
 
-def get_constant_names():
-    return tuple(constants.keys())
+class Constant(ActionEnum):
 
+    def __init__(self, value, constant_value=None, description=None):
+        self.constant_value = constant_value
+        self.description = description
 
-class Constants:
+    pi = 'pi', math.pi, "Value of pi"
+    tau = 'tau', 2*math.pi, "Value of 2pi"
+    ln_base = 'e', math.e
+    lightspeed = 'c', 299792458, "Speed of light"
+    planck = 'h', 6.62607015e-34
+    permittivity = 'mu0',  1.2566370621219e-6
+    avogadro = 'Na', 6.02214076e23
+    boltzmann = 'kb', 1.380649e-23
+    gas_constant = 'R', 8.314462618
+    gravitational_constant = 'G', 6.6743015e-11
+    earth_gravity_acc = 'g', 9.80665
+    mass_electron = 'me', 9.109383701528e-31
+    mass_proton = 'mp', 1.6726219236951e-27
+    mass_neutron = 'mn', 1.6749274980495e-27
 
-    @classmethod
-    def __call__(cls, arg):
-        return constants[arg]
+    def action(self):
+        self.push(self.constant_value)
