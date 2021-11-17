@@ -49,7 +49,7 @@ Stack: [array([[ 0.6,  0. , -0.2],
 Applying LinearAlgebraOperator.dotproduct
 Stack: [array([4., 2., 3.])]
 ```
-Items can also be stored as named constants by prefixing the desired name with `store_`, to be retrieved by prefixing an `_` later.  These variables are stored in a dictionary and can be accessed until overwritten.  A usage example calculating the vapor pressure of ethanol via Antoine's equation for the vapor pressure of ethanol is given below.
+Items can also be stored as named constants by prefixing the desired name with `store_`, to be retrieved by prefixing an `_` later.  These variables are stored in a dictionary and can be accessed until overwritten.  A usage example calculating the vapor pressure of ethanol via Antoine's equation (A 3-parameter fit of 10^(A-B/(C+T)) at T=78.32C is given below.  Units for the fit coefficients are most not SI, and give ye olde mmHg.
 
 `rpncalc -v 8.2042 store_A 1642.9 store_B 230.30 store_C 10 _A _B _C 78.32 + / - ^`
 gives output:
