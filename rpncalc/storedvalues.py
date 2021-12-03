@@ -33,6 +33,9 @@ class StoredValueWrite(StackAccessor):
     def action(self):
         storage[self.name] = self.take_1()
 
+    def verbose_mode_message(self):
+        print(f"Popping stack into stored value {self.name}")
+
 
 class StoredValueRead(StackAccessor):
     def __init__(self, name):
@@ -52,3 +55,6 @@ class StoredValueRead(StackAccessor):
 
             msg = f"No stored value '{self.name}'. {avail}."
             raise KeyError(msg) from e
+
+    def verbose_mode_message(self):
+        print(f"Pushing stored value {self.name} to stack")
