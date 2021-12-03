@@ -1,4 +1,4 @@
-from rpncalc.constants import Constant
+from rpncalc.constantoperator import Constant
 from rpncalc.idempotentoperator import IdempotentOperator
 from rpncalc.unaryoperator import UnaryOperator
 from rpncalc.binaryoperator import BinaryOperator
