@@ -11,6 +11,7 @@ class IdempotentOperator(ActionEnum):
     print_stored_named = 'print_store', \
         "Prints the names and values of all stored constants"
     quit = 'quit'
+    exit = 'exit'
 
     def action(self):
         o = type(self)
@@ -25,9 +26,13 @@ class IdempotentOperator(ActionEnum):
             case o.print_stored_named:
                 print(f"Stored Values {storedvalues.storage}")
             case o.quit:
-                print("Quitting")
+                sys.exit(0)
+            case o.exit:
                 sys.exit(0)
 
             case _:
                 msg = f"Missing case match for action {self}"
                 raise NotImplementedError(msg)
+
+    def verbose_mode_message(self):
+        pass

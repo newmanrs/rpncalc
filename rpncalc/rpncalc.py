@@ -1,10 +1,10 @@
 import argparse
 import copy
+# Ignore F401 import unused
+# readline has sideeffects on builtin function 'input'
 import readline  # noqa: F401
-# Ignore F401 import unused, readline has sideeffects on func 'input'
 import traceback
 
-from rpncalc.idempotentoperator import IdempotentOperator
 from rpncalc.parseinput import parse_expression
 from rpncalc.util import stack
 
@@ -29,8 +29,8 @@ def compute_rpn(expression, verbose=False, return_copy=True):
                 case _ if isinstance(item, (int | float)):
                     stack.append(item)
                 case _ if hasattr(item, 'action'):
-                    if verbose and not item == IdempotentOperator.print_stack:
-                        print(f"Applying {item}")
+                    if verbose and hasattr(item, 'verbose_mode_message'):
+                        item.verbose_mode_message()
                     item.action()
                 case _:
                     s = f"No known action in rpn parse loop for item '{item}'"
