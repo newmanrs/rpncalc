@@ -29,13 +29,13 @@ class LinearAlgebraOperator(ActionEnum):
         " Ex. '1 2 3 4 5 6 3 2 matmn' gives" \
         " array([[1,2],[3,4],[5,6]])"
 
-    determinant = 'det'
-    inverse = 'inv'
-    transpose = 'T'
+    determinant = 'det', "Determinant of matrix"
+    inverse = 'inv', "Inverse of matrix"
+    transpose = 'T', "Matrix Transpose"
 
-    unit_vec_x = 'e_x', "vec3(1,0,0)"
-    unit_vec_y = 'e_y', "vec3(0,1,0)"
-    unit_vec_z = 'e_z', "vec3(0,0,1)"
+    unit_vec_x = 'e_x', "Pushes vec3(1,0,0) to stack"
+    unit_vec_y = 'e_y', "Pushes vec3(0,1,0) to stack"
+    unit_vec_z = 'e_z', "Pushes vec3(0,0,1) to stack"
 
     hstack = 'hstack', "Stack vectors horizontally" \
         "Ex. '1, 2 vec2 3 4 vec2 hstack' gives array([1,2,3,4])"

@@ -80,6 +80,7 @@ class ActionEnum(StackAccessor, enum.Enum):
     def help(self):
         if self.description:
             return f" {self.description}"
+        return ""
 
     def verbose_mode_message(self):
         print(f"Applying {self}")
