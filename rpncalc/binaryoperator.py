@@ -1,6 +1,6 @@
 import numpy
 import math
-from rpncalc.util import ActionEnum
+from rpncalc.classes import ActionEnum
 
 
 class BinaryOperator(ActionEnum):

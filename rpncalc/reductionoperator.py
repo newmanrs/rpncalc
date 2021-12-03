@@ -1,6 +1,6 @@
 import numpy
 import functools
-from rpncalc.util import ActionEnum
+from rpncalc.classes import ActionEnum
 
 
 def sem(x):

@@ -6,7 +6,7 @@ from rpncalc.reductionoperator import ReductionOperator
 from rpncalc.linearalgebraoperator import LinearAlgebraOperator
 from rpncalc.stackoperator import StackOperator
 from rpncalc.storedvalues import get_stored_value_class
-from rpncalc.util import ActionEnum
+from rpncalc.classes import ActionEnum
 
 
 def parse_expression(strexp, verbose=False):

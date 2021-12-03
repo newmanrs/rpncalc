@@ -2,7 +2,7 @@ import unittest
 import numpy
 from rpncalc.rpncalc import parse_expression, compute_rpn
 import rpncalc.storedvalues
-import rpncalc.util
+import rpncalc.globals
 
 
 class TestRPNCalc(unittest.TestCase):
@@ -15,7 +15,7 @@ class TestRPNCalc(unittest.TestCase):
         if clear_stored:
             rpncalc.storedvalues.clear_storage()
         if clear_stack:
-            rpncalc.util.clear_stack()
+            rpncalc.globals.clear_stack()
         if len(ans) == 1:
             ans = ans[0]
         print(ans)

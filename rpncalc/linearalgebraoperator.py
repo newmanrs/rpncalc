@@ -1,6 +1,6 @@
 import numpy
 import math
-from rpncalc.util import ActionEnum, stack
+from rpncalc.classes import ActionEnum, stack
 
 
 class LinearAlgebraOperator(ActionEnum):

@@ -1,6 +1,6 @@
 import sys
 from rpncalc import storedvalues
-from rpncalc.util import ActionEnum, stack
+from rpncalc.classes import ActionEnum, stack
 
 
 class IdempotentOperator(ActionEnum):

@@ -6,7 +6,7 @@ import readline  # noqa: F401
 import traceback
 
 from rpncalc.parseinput import parse_expression
-from rpncalc.util import stack
+from rpncalc.globals import stack
 
 
 def parse_args():

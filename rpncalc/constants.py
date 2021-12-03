@@ -1,5 +1,5 @@
 import math
-from rpncalc.util import ActionEnum
+from rpncalc.classes import ActionEnum
 
 
 class Constant(ActionEnum):

@@ -1,4 +1,4 @@
-from rpncalc.util import StackAccessor
+from rpncalc.classes import StackAccessor
 
 storage = dict()
 

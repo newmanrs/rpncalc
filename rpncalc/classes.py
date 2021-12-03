@@ -1,12 +1,5 @@
 import enum
-
-# Global stack for the calculator
-stack = []
-
-
-def clear_stack():
-    stack.clear()
-
+from rpncalc.globals import stack
 
 class StackAccessor:
     def gen_n(self, n):
