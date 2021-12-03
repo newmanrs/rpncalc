@@ -103,6 +103,12 @@ class TestRPNCalc(unittest.TestCase):
         self.assertAlmostEqual(ans[1], 2)
         self.assertAlmostEqual(ans[2], 3)
 
+    def test_help(self):
+        # Test if calling help string crashes or not.
+        # Different codepath for constants
+        self.run_from_expr("help_mu0")
+        self.run_from_expr("help_T")
+
 
 if __name__ == '__main__':
     unittest.main()
