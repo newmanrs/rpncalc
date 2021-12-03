@@ -52,10 +52,10 @@ class LinearAlgebraOperator(ActionEnum):
         ", and places on stack"
 
     def _to_vec_n(self, n):
-        return numpy.flip(self.take_n(n))
+        return numpy.flip(self.take_n(n)).reshape((n, 1))
 
     def _to_vec_all(self):
-        return numpy.flip(self.take_all())
+        return self._to_vec_n(self.stack_size())
 
     def _to_mat_mn(self, m, n):
         return numpy.flip(self.take_n(m*n)).reshape((m, n))

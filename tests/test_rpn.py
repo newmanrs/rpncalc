@@ -84,6 +84,7 @@ class TestRPNCalc(unittest.TestCase):
             "1 3 5 vec3 store_b _A _b dot"
             )
         ans = self.run_from_expr(expr)
+        ans = ans.flatten()
         self.assertTrue(all(ans == [35, 105, 181]))
 
     def test_stacking(self):
@@ -92,13 +93,14 @@ class TestRPNCalc(unittest.TestCase):
             "1 3 5 vec3 store_b _A _b dot"
             )
         ans = self.run_from_expr(expr, clear_stored=False)
-        expr = "1 3 5 vec3 7 11 13 vec3 15 17 23 vec3 vstack vstack _A - sum"
+        expr = "1 3 5 vec3 7 11 13 vec3 15 17 23 vec3 hstack hstack _A T - sum"
         ans = self.run_from_expr(expr)
         self.assertEqual(ans, 0)
 
     def test_matrix_solve(self):
         expr = "2 1 1 1 2 1 1 3 3 matsq inv 13 11 19 vec3 dot"
         ans = self.run_from_expr(expr)
+        ans = ans.flatten()
         self.assertAlmostEqual(ans[0], 4)
         self.assertAlmostEqual(ans[1], 2)
         self.assertAlmostEqual(ans[2], 3)

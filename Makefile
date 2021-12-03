@@ -27,4 +27,4 @@ clean:
 
 lint:
 	@echo "Lint"
-	flake8
+	flake8 --exclude=build
