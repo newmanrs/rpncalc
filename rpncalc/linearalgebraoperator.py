@@ -1,6 +1,6 @@
 import numpy
 import math
-from rpncalc.classes import ActionEnum, stack
+from rpncalc.classes import ActionEnum
 
 
 class LinearAlgebraOperator(ActionEnum):
@@ -90,7 +90,7 @@ class LinearAlgebraOperator(ActionEnum):
                     size = int(size)
                     r = self._to_mat_mn(size, size)
                 else:
-                    msg = f"Stack of len {len(stack)} is not square"
+                    msg = f"Stack of len {self.stack_size()} is not square"
                     raise ValueError(msg)
             case o.to_matmn:
                 N, M = self.take_2()

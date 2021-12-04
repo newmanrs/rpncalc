@@ -1,4 +1,5 @@
-from rpncalc.classes import ActionEnum, stack
+from rpncalc.classes import ActionEnum
+from rpncalc.globals import stack
 
 
 class StackOperator(ActionEnum):
