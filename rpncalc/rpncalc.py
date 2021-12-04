@@ -7,6 +7,7 @@ import traceback
 
 from rpncalc.parseinput import parse_expression
 from rpncalc.globals import stack
+from rpncalc.history import enable_history
 
 
 def parse_args():
@@ -66,12 +67,15 @@ def main():
 
     parser = parse_args()
 
+    enable_history()
+
     if parser.interactive:
         interactive_loop(parser)
-
-    exp = parse_expression(parser.expression, parser.verbose)
-    ans = compute_rpn(exp, parser.verbose)
-    print(f"Stack: {ans}")
+    else:
+        readline.add_history(' '.join(parser.expression))
+        exp = parse_expression(parser.expression, parser.verbose)
+        ans = compute_rpn(exp, parser.verbose)
+        print(f"Stack: {ans}")
 
     if parser.debug:
         breakpoint()
