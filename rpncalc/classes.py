@@ -1,6 +1,7 @@
 import enum
 from rpncalc.globals import stack
 
+
 class StackAccessor:
     def gen_n(self, n):
 
