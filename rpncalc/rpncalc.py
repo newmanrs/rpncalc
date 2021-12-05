@@ -45,7 +45,8 @@ def main():
         readline.add_history(' '.join(parser.expression))
         exp = parse_expression(parser.expression, parser.verbose)
         ans = compute_rpn(exp, parser.verbose)
-        print(f"Stack: {ans}")
+        if len(ans) > 0:
+            print(f"Stack: {ans}")
 
     if parser.debug:
         breakpoint()

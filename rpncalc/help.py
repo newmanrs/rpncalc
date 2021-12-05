@@ -24,21 +24,23 @@ def help_string():
     # means be careful with commas separating the sentences
     # in the list while using implicit concatentation
     msg = [
-        "Displaying help.",
-        "Pass integers or numbers to script and apply one or more"
-        " of the following operators:"
+        "Reverse Polish Calculator on input argument strings.  An example "
+        "`rpncalc 1 2 +` should push 3 to the stack.  The available "
+        "operators are:"
         ]
     msg_foot = [
-        "Use help(cmd) or help_cmd for help on specific operators"
-        " such as help_matsq\n",
-        "--verbose, -v, to show how the stack is processed",
-        "--interactive, -i, for interactive input loop",
-        "--debug, for breakpoints after expression evalution",
+        "Use help(cmd) or help_cmd for more detailed help on specific operators"
+        " such as help_matsq",
+        "",
+        "Flags:",
+        " --verbose, -v, to show how the stack is processed",
+        " --interactive, -i, for an interactive input loop",
+        " --debug, for breakpoints after expression evalution",
         ]
 
     tx = textwrap.TextWrapper(
         width=get_terminal_width(),
-        subsequent_indent=' '
+        subsequent_indent='  '
         )
 
     msg = '\n'.join([tx.fill(i) for i in msg])
