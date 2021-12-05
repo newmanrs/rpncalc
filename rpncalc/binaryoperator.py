@@ -59,10 +59,10 @@ class BinaryOperator(ActionEnum):
                 r = v0 <= v1
             case o.choose:
                 f = math.factorial
-                r = f(v0)/(f(v0-v1))
+                r = f(v0)//(f(v0-v1))
             case o.combinations:
                 f = math.factorial
-                r = f(v0)/(f(v0-v1)*f(v1))
+                r = f(v0)//(f(v0-v1)*f(v1))
             case _:
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
