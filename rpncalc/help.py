@@ -33,9 +33,9 @@ def help_string():
         " such as help_matsq",
         "",
         "Flags:",
-        " --verbose, -v, to show how the stack is processed",
-        " --interactive, -i, for an interactive input loop",
-        " --debug, for breakpoints after expression evalution",
+        " --verbose, -v. Print how the stack is processed",
+        " --interactive, -i. Launch interactive input loop",
+        " --debug. Set breakpoints after expression evalution",
         ]
 
     tx = textwrap.TextWrapper(
