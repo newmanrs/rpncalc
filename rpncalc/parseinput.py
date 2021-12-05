@@ -1,3 +1,5 @@
+import copy
+
 from rpncalc.constantoperator import Constant
 from rpncalc.idempotentoperator import IdempotentOperator
 from rpncalc.unaryoperator import UnaryOperator
@@ -5,8 +7,37 @@ from rpncalc.binaryoperator import BinaryOperator
 from rpncalc.reductionoperator import ReductionOperator
 from rpncalc.linearalgebraoperator import LinearAlgebraOperator
 from rpncalc.stackoperator import StackOperator
+from rpncalc.history import HistoryOperator
 from rpncalc.storedvalues import get_stored_value_class
 from rpncalc.classes import ActionEnum
+from rpncalc.globals import stack
+
+
+def compute_rpn(expression, verbose=False, return_copy=True):
+    backup = copy.deepcopy(stack)   # Rollback if expression throws
+    try:
+        for item in expression:
+            match item:
+
+                case _ if isinstance(item, (int | float)):
+                    stack.append(item)
+                case _ if hasattr(item, 'action'):
+                    if verbose and hasattr(item, 'verbose_mode_message'):
+                        item.verbose_mode_message()
+                    item.action()
+                case _:
+                    s = f"No known action in rpn parse loop for item '{item}'"
+                    raise ValueError(s)
+    except Exception as e:
+        stack.clear()
+        for item in backup:
+            stack.append(item)
+        raise e
+
+    if return_copy:
+        return copy.deepcopy(stack)
+    else:
+        return stack
 
 
 def parse_expression(strexp, verbose=False):
@@ -37,6 +68,7 @@ def parse_expression(strexp, verbose=False):
                   ReductionOperator,
                   LinearAlgebraOperator,
                   StackOperator,
+                  HistoryOperator,
                   get_stored_value_class,
                   Help]:
             try:
