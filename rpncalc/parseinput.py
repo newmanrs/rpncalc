@@ -9,25 +9,33 @@ from rpncalc.linearalgebraoperator import LinearAlgebraOperator
 from rpncalc.stackoperator import StackOperator
 from rpncalc.history import HistoryOperator
 from rpncalc.storedvalues import get_stored_value_class
-from rpncalc.classes import ActionEnum
+from rpncalc.help import HelpOperator, HelpCommand, Help
 from rpncalc.globals import stack
 
 
 def compute_rpn(expression, verbose=False, return_copy=True):
-    backup = copy.deepcopy(stack)   # Rollback if expression throws
+
+    # Rollback the stack if parsing the expression throws
+    # to preserve using the calculator in interactive mode
+    backup = copy.deepcopy(stack)
+
     try:
         for item in expression:
+
             match item:
 
                 case _ if isinstance(item, (int | float)):
                     stack.append(item)
+
                 case _ if hasattr(item, 'action'):
                     if verbose and hasattr(item, 'verbose_mode_message'):
                         item.verbose_mode_message()
                     item.action()
+
                 case _:
                     s = f"No known action in rpn parse loop for item '{item}'"
                     raise ValueError(s)
+
     except Exception as e:
         stack.clear()
         for item in backup:
@@ -99,83 +107,3 @@ def parse_expression(strexp, verbose=False):
                     verboseexp.append(IdempotentOperator.print_stack)
                 verboseexp.append(item)
         return verboseexp
-
-
-def help_string():
-
-    c = tuple(i.value for i in Constant)
-    io = tuple(i.value for i in IdempotentOperator)
-    uo = tuple(i.value for i in UnaryOperator)
-    bo = tuple(i.value for i in BinaryOperator)
-    ro = tuple(i.value for i in ReductionOperator)
-    lao = tuple(i.value for i in LinearAlgebraOperator)
-    so = tuple(i.value for i in StackOperator)
-
-    msg = (
-        "Displaying help.\n"
-        "Pass integers or numbers to script and apply one or more"
-        " of the following operators:\n"
-        f"Idempotent Operators: {io}\n"
-        f"Unary Operators: {uo}\n"
-        f"Binary Operators: {bo}\n"
-        f"Reduction Operators: {ro}\n"
-        f"Linear Algebra Operators {lao}\n"
-        f"Stack Operators {so}\n"
-        f"Constants: {c}\n\n"
-        f"Use help(cmd) or help_cmd for help on specific operators"
-        " such as help_matsq\n\n"
-        "--verbose, -v, to show how the stack is processed\n"
-        "--interactive, -i, for interactive input loop"
-        )
-
-    return msg
-
-
-class HelpOperator(ActionEnum):
-    print_main_help = 'help'
-
-    def action(self):
-        o = type(self)
-        match self:
-            case o.print_main_help:
-                print(help_string())
-            case _:
-                msg = f"Missing case match for action {self}"
-                raise NotImplementedError(msg)
-
-
-class HelpCommand():
-
-    def __init__(self, cmd):
-        self.cmd = cmd
-        self.op = parse_expression(cmd)[0]
-
-    def action(self):
-        # Print what we know about the command
-        msg = (
-            f"Help for cmd '{self.cmd}'\n"
-            f"Applies operator {self.op}."
-            )
-        if hasattr(self.op, 'help'):
-            if m := self.op.help():
-                msg += m
-        print(msg)
-
-
-class Help():
-
-    def __call__(self, string):
-
-        if string == 'help':
-            return HelpOperator.print_main_help
-        elif string.startswith('help(') and string.endswith(')'):
-            cmd = string[5:-1]
-            return HelpCommand(cmd)
-        elif string.startswith('help_'):
-            cmd = string[5:]
-            return HelpCommand(cmd)
-        else:
-            raise ValueError
-
-
-Help = Help()
