@@ -18,7 +18,7 @@ try:
 except FileNotFoundError:
     print(
         f"No history file found at {HIST_LOC}."
-        f" Create empty file with 'touch {HIST_LOC}"
+        f" Create empty file at {HIST_LOC}"
         " to enable this feature"
         )
     # No file, return
