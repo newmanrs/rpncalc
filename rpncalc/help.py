@@ -8,6 +8,7 @@ from rpncalc.binaryoperator import BinaryOperator
 from rpncalc.reductionoperator import ReductionOperator
 from rpncalc.linearalgebraoperator import LinearAlgebraOperator
 from rpncalc.stackoperator import StackOperator
+from rpncalc.randomoperator import RandomOperator
 from rpncalc.history import HistoryOperator
 
 import shutil
@@ -29,8 +30,8 @@ def help_string():
         "operators are:"
         ]
     msg_foot = [
-        "Use help(cmd) or help_cmd for more detailed help on specific operators"
-        " such as help_matsq",
+        "Use help(cmd) or help_cmd for more detailed help on"
+        "specific operators such as help_matsq",
         "",
         "Flags:",
         " --verbose, -v. Print how the stack is processed",
@@ -56,7 +57,8 @@ def operator_help_list():
         BinaryOperator, UnaryOperator,
         IdempotentOperator, ReductionOperator,
         LinearAlgebraOperator, Constant,
-        StackOperator, HistoryOperator
+        StackOperator, RandomOperator,
+        HistoryOperator
         ]
     for T in types:
         msg += ' ' + T.__name__ + 's:\n'

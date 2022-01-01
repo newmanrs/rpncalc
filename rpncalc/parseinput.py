@@ -7,6 +7,7 @@ from rpncalc.binaryoperator import BinaryOperator
 from rpncalc.reductionoperator import ReductionOperator
 from rpncalc.linearalgebraoperator import LinearAlgebraOperator
 from rpncalc.stackoperator import StackOperator
+from rpncalc.randomoperator import RandomOperator
 from rpncalc.history import HistoryOperator
 from rpncalc.storedvalues import get_stored_value_class
 from rpncalc.help import HelpOperator, HelpCommand, Help
@@ -76,6 +77,7 @@ def parse_expression(strexp, verbose=False):
                   ReductionOperator,
                   LinearAlgebraOperator,
                   StackOperator,
+                  RandomOperator,
                   HistoryOperator,
                   get_stored_value_class,
                   Help]:
