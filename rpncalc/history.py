@@ -66,6 +66,24 @@ def get_history(idx: int):
         rpncalc.parseinput.compute_rpn(exp)
 
 
+def last_history():
+
+    if not history_enabled:
+        print('History not enabled')
+        return
+    else:
+        maxidx = readline.get_current_history_length()
+        return readline.get_history_item(maxidx)
+
+
+def add_to_history_if_not_same_as_last(exp: str):
+    """ Add command line history if not same as
+    last prior command """
+    last = last_history()
+    if last != exp:
+        readline.add_history(exp)
+
+
 class HistoryOperator(ActionEnum):
 
     print_history = 'print_history'

@@ -5,6 +5,7 @@ import readline  # noqa: F401
 import traceback
 
 from rpncalc.parseinput import compute_rpn, parse_expression
+from rpncalc.history import add_to_history_if_not_same_as_last
 
 
 def parse_args():
@@ -44,7 +45,7 @@ def main():
     else:
         # Commmand line input needs to be added manually to
         # calculator history file.
-        readline.add_history(' '.join(parser.expression))
+        add_to_history_if_not_same_as_last(' '.join(parser.expression))
         exp = parse_expression(parser.expression, parser.verbose)
         ans = compute_rpn(exp, parser.verbose)
         if len(ans.stack) > 0:
