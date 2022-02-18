@@ -35,7 +35,8 @@ def compute_rpn(expression, verbose=False, return_copy=True):
                     # Store string representing last parsed command as the
                     # enum's string value.  I.e. BinaryOperator.addition
                     # object is stored as '+'.
-                    rpncalc.state.state.last_action = item.value
+                    if item.value != 'print':
+                        rpncalc.state.state.last_action = item.value
 
                 case _:
                     s = f"No known action in rpn parse loop for item '{item}'"

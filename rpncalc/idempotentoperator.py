@@ -30,7 +30,7 @@ class IdempotentOperator(ActionEnum):
             case o.print_stored_named:
                 print(f"Stored Values {state.stored_values}")
             case o.print_state:
-                print(state.to_json())
+                print(state)
             case o.quit:
                 sys.exit(0)
             case o.exit:
