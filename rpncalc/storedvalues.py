@@ -23,22 +23,22 @@ def get_stored_value_class(arg):
 class StoredValueWrite(StackAccessor):
 
     def __init__(self, name):
-        self.name = name
+        self.value = name
 
     def action(self):
-        state.stored_values[self.name] = self.take_1()
+        state.stored_values[self.value] = self.take_1()
 
     def verbose_mode_message(self):
-        print(f"Popping stack into stored value {self.name}")
+        print(f"Popping stack into stored value {self.value}")
 
 
 class StoredValueRead(StackAccessor):
     def __init__(self, name):
-        self.name = name
+        self.value = name
 
     def action(self):
         try:
-            self.push(state.stored_values[self.name])
+            self.push(state.stored_values[self.value])
         except KeyError as e:
             k = tuple(state.stored_values.keys())
             if len(k) == 0:
@@ -48,8 +48,8 @@ class StoredValueRead(StackAccessor):
             else:
                 avail = f"Available keys are {k}"
 
-            msg = f"No stored value '{self.name}'. {avail}."
+            msg = f"No stored value '{self.value}'. {avail}."
             raise KeyError(msg) from e
 
     def verbose_mode_message(self):
-        print(f"Pushing stored value {self.name} to stack")
+        print(f"Pushing stored value {self.value} to stack")

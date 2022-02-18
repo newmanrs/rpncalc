@@ -32,6 +32,10 @@ def compute_rpn(expression, verbose=False, return_copy=True):
                     if verbose and hasattr(item, 'verbose_mode_message'):
                         item.verbose_mode_message()
                     item.action()
+                    # Store string representing last parsed command as the
+                    # enum's string value.  I.e. BinaryOperator.addition
+                    # object is stored as '+'.
+                    rpncalc.state.state.last_action = item.value
 
                 case _:
                     s = f"No known action in rpn parse loop for item '{item}'"
@@ -46,6 +50,30 @@ def compute_rpn(expression, verbose=False, return_copy=True):
         return copy.deepcopy(rpncalc.state.state)
     else:
         return rpncalc.state.state
+
+
+def string_to_type(arg: str):
+    for t in [int, float,
+              Constant,
+              BinaryOperator,
+              UnaryOperator,
+              IdempotentOperator,
+              ReductionOperator,
+              LinearAlgebraOperator,
+              StateOperator,
+              RandomOperator,
+              HistoryOperator,
+              get_stored_value_class,
+              Help]:
+        try:
+            item = t(arg)
+        except (ValueError, KeyError):
+            # Parse fails from Constant() are KeyError, from the Enum
+            # operator classes ValueErrors
+            pass
+        else:
+            return item
+    return None
 
 
 def parse_expression(strexp, verbose=False):
@@ -67,34 +95,12 @@ def parse_expression(strexp, verbose=False):
     parsedexp = []
 
     for arg in strexp:
-        parsed = False
-        for t in [int, float,
-                  Constant,
-                  BinaryOperator,
-                  UnaryOperator,
-                  IdempotentOperator,
-                  ReductionOperator,
-                  LinearAlgebraOperator,
-                  StateOperator,
-                  RandomOperator,
-                  HistoryOperator,
-                  get_stored_value_class,
-                  Help]:
-            try:
-                parsedexp.append(t(arg))
-                parsed = True
-
-            except (ValueError, KeyError):
-                # Parse fails from Constant() are KeyError, from the Enum
-                # operator classes ValueErrors
-                pass
-
-            else:
-                break
-
-        if not parsed:
+        item = string_to_type(arg)
+        if item is None:
             msg = f"Unable to parse arg '{arg}'"
             raise ValueError(msg)
+        else:
+            parsedexp.append(item)
     if not verbose:
         return parsedexp
     else:

@@ -1,5 +1,6 @@
 from rpncalc.classes import ActionEnum
 from rpncalc.state import state
+import rpncalc.parseinput
 
 
 class StateOperator(ActionEnum):
@@ -10,6 +11,8 @@ class StateOperator(ActionEnum):
     pop_last = 'pop', "Remove and discard last item in stack"
     save = 'save', "Save calculator state to user prompted filename"
     load = 'load', "Load calculator state from user prompted filename"
+    repeatn = 'repeatn', \
+        "Consume int n from stack and repeats prior action n times"
 
     def action(self):
         o = type(self)
@@ -32,6 +35,12 @@ class StateOperator(ActionEnum):
             case o.load:
                 filename = input("Enter filename to load from:\n")
                 state.load_from_file(filename)
+            case o.repeatn:
+                n = self.take_1()
+                item = rpncalc.parseinput.string_to_type(state.last_action)
+                for _ in range(n):
+                    item.action()
+
             case _:
                 msg = f"Missing case match for action {self}"
                 raise NotImplementedError(msg)

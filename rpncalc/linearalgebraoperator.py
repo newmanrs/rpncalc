@@ -42,7 +42,6 @@ class LinearAlgebraOperator(ActionEnum):
     vstack = 'vstack', "Stack vectors vertically" \
         "Ex. '1, 2 vec2 3 4 vec2 vstack' gives array([[1,2][3,4]])"
 
-    repeat = 'repeat'
     reshape = 'reshape'
 
     normalize = 'normalize', "normalize item on top of stack"
@@ -123,10 +122,6 @@ class LinearAlgebraOperator(ActionEnum):
             case o.vstack:
                 j, i = self.take_2()
                 r = numpy.vstack((i, j))
-
-            case o.repeat:
-                repeats, item = self.take_2()
-                r = numpy.repeat(item, repeats)
 
             case o.reshape:
                 N, M, item = self.take_3()

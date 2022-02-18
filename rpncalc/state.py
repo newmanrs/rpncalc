@@ -7,6 +7,7 @@ class State:
 
     stack: list = dataclasses.field(default_factory=list)
     stored_values: dict = dataclasses.field(default_factory=dict)
+    last_action: object = None
 
     def clear_stack(self):
         self.stack.clear()
