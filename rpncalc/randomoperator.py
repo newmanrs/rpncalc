@@ -34,6 +34,8 @@ class RandomOperator(ActionEnum):
                 roll = rng.integers(1, 6, endpoint=True)
             case o.d8:
                 roll = rng.integers(1, 8, endpoint=True)
+            case o.d10:
+                roll = rng.integers(1, 10, endpoint=True)
             case o.d12:
                 roll = rng.integers(1, 12, endpoint=True)
             case o.d20:
