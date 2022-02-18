@@ -21,6 +21,15 @@ class State:
         for k, v in snapshot.items():
             setattr(self, k, v)
 
+    def save_to_file(self, filename, indent=2):
+        with open(filename, 'w') as f:
+            json.dump(self.make_snapshot(), f, indent=indent)
+
+    def load_from_file(self, filename):
+        with open(filename, 'r') as f:
+            d = json.load(f)
+        self.load_snapshot(d)
+
     def to_json(self):
         return json.dumps(self.make_snapshot(), indent=None)
 

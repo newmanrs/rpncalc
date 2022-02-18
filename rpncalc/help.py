@@ -36,6 +36,7 @@ def help_string():
         "Flags:",
         " --verbose, -v. Print how the stack is processed",
         " --interactive, -i. Launch interactive input loop",
+        " --load, -l.  Load from specified snapshot file",
         " --debug. Set breakpoints after expression evalution",
         ]
 

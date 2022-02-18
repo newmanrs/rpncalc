@@ -6,6 +6,7 @@ import traceback
 
 from rpncalc.parseinput import compute_rpn, parse_expression
 from rpncalc.history import add_to_history_if_not_same_as_last
+import rpncalc.state
 
 
 def parse_args():
@@ -14,6 +15,7 @@ def parse_args():
     parser.add_argument('--help', '-h', action='store_true')
     parser.add_argument('--verbose', '-v', action='store_true')
     parser.add_argument('--interactive', '-i', action='store_true')
+    parser.add_argument('--load', '-l', type=str)
     parser.add_argument('--debug', action='store_true')
 
     return parser.parse_args()
@@ -39,6 +41,8 @@ def main():
     """
 
     parser = parse_args()
+    if parser.load is not None:
+        rpncalc.state.state.load_from_file(parser.load)
 
     if parser.interactive:
         interactive_loop(parser)
