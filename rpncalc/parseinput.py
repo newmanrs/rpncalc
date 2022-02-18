@@ -11,22 +11,22 @@ from rpncalc.randomoperator import RandomOperator
 from rpncalc.history import HistoryOperator
 from rpncalc.storedvalues import get_stored_value_class
 from rpncalc.help import HelpOperator, HelpCommand, Help
-from rpncalc.globals import stack
+import rpncalc.state
+import traceback
 
 
 def compute_rpn(expression, verbose=False, return_copy=True):
 
-    # Rollback the stack if parsing the expression throws
-    # to preserve using the calculator in interactive mode
-    backup = copy.deepcopy(stack)
-
+    # Take state snapshot to roll back to if exceptions
+    # are encountered
+    snap = rpncalc.state.state.make_snapshot()
     try:
         for item in expression:
 
             match item:
 
                 case _ if isinstance(item, (int | float)):
-                    stack.append(item)
+                    rpncalc.state.state.stack.append(item)
 
                 case _ if hasattr(item, 'action'):
                     if verbose and hasattr(item, 'verbose_mode_message'):
@@ -37,16 +37,15 @@ def compute_rpn(expression, verbose=False, return_copy=True):
                     s = f"No known action in rpn parse loop for item '{item}'"
                     raise ValueError(s)
 
-    except Exception as e:
-        stack.clear()
-        for item in backup:
-            stack.append(item)
-        raise e
+    except Exception:
+        print(traceback.print_exc())
+        print("Encountered above error, rolling back state changes")
+        rpncalc.state.state.load_snapshot(snap)
 
     if return_copy:
-        return copy.deepcopy(stack)
+        return copy.deepcopy(rpncalc.state.state)
     else:
-        return stack
+        return rpncalc.state.state
 
 
 def parse_expression(strexp, verbose=False):

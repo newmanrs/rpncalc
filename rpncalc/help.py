@@ -30,8 +30,8 @@ def help_string():
         "operators are:"
         ]
     msg_foot = [
-        "Use help(cmd) or help_cmd for more detailed help on"
-        "specific operators such as help_matsq",
+        "Use help(cmd) or help_cmd for detailed help on specific operators"
+        " such as help_matsq",
         "",
         "Flags:",
         " --verbose, -v. Print how the stack is processed",

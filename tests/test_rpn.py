@@ -1,23 +1,26 @@
 import unittest
 import numpy
 from rpncalc.rpncalc import parse_expression, compute_rpn
-import rpncalc.storedvalues
-import rpncalc.globals
+import rpncalc.state
 
 
 class TestRPNCalc(unittest.TestCase):
 
     def run_from_expr(self, expr, clear_stored=True, clear_stack=True):
+        # TODO:  Fix the state management here
+
         print(f"\n\"{expr}\"")
-        ans = compute_rpn(parse_expression(expr))
+        state = compute_rpn(parse_expression(expr))
         # Clear the named storage variables to ensure
         # that unittests are independent of order
         if clear_stored:
-            rpncalc.storedvalues.clear_storage()
+            rpncalc.state.state.clear_storage()
         if clear_stack:
-            rpncalc.globals.clear_stack()
-        if len(ans) == 1:
-            ans = ans[0]
+            rpncalc.state.state.clear_stack()
+        if len(state.stack) == 1:
+            ans = state.stack[0]
+        else:
+            ans = state.stack
         print(ans)
         return ans
 

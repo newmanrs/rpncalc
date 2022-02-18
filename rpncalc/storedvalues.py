@@ -1,10 +1,5 @@
 from rpncalc.classes import StackAccessor
-
-storage = dict()
-
-
-def clear_storage():
-    storage.clear()
+from rpncalc.state import state
 
 
 def get_stored_value_class(arg):
@@ -31,7 +26,7 @@ class StoredValueWrite(StackAccessor):
         self.name = name
 
     def action(self):
-        storage[self.name] = self.take_1()
+        state.stored_values[self.name] = self.take_1()
 
     def verbose_mode_message(self):
         print(f"Popping stack into stored value {self.name}")
@@ -43,9 +38,9 @@ class StoredValueRead(StackAccessor):
 
     def action(self):
         try:
-            self.push(storage[self.name])
+            self.push(state.stored_values[self.name])
         except KeyError as e:
-            k = tuple(storage.keys())
+            k = tuple(state.stored_values.keys())
             if len(k) == 0:
                 avail = "No stored keys"
             elif len(k) == 1:

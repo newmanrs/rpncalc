@@ -42,11 +42,13 @@ def main():
     if parser.interactive:
         interactive_loop(parser)
     else:
+        # Commmand line input needs to be added manually to
+        # calculator history file.
         readline.add_history(' '.join(parser.expression))
         exp = parse_expression(parser.expression, parser.verbose)
         ans = compute_rpn(exp, parser.verbose)
-        if len(ans) > 0:
-            print(f"Stack: {ans}")
+        if len(ans.stack) > 0:
+            print(f"Stack: {ans.stack}")
 
     if parser.debug:
         breakpoint()

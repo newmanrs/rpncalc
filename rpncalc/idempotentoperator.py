@@ -1,8 +1,7 @@
 import sys
 
-from rpncalc import storedvalues
 from rpncalc.classes import ActionEnum
-from rpncalc.globals import stack
+from rpncalc.state import state
 
 
 class IdempotentOperator(ActionEnum):
@@ -12,10 +11,13 @@ class IdempotentOperator(ActionEnum):
         " the stack contains only said value"
     print_stored_named = 'print_store', \
         "Prints the names and values of all stored constants"
+    print_state = 'print_state', \
+        "Print all calculator state including stack and storage"
     quit = 'quit'
     exit = 'exit'
 
     def action(self):
+        stack = state.stack
         o = type(self)
         match self:
             case o.print_stack:
@@ -26,7 +28,9 @@ class IdempotentOperator(ActionEnum):
                 else:
                     print(f"Stack: {stack}")
             case o.print_stored_named:
-                print(f"Stored Values {storedvalues.storage}")
+                print(f"Stored Values {state.stored_values}")
+            case o.print_state:
+                print(state.to_json())
             case o.quit:
                 sys.exit(0)
             case o.exit:

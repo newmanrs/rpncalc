@@ -1,21 +1,22 @@
 import enum
-from rpncalc.globals import stack
+from rpncalc.state import state
+from rpncalc.exceptions import StackDepletedError
 
 
 class StackAccessor:
     def gen_n(self, n):
 
-        if n > len(stack):
+        if n > len(state.stack):
             msg = (
                 f"Empty stack processing {self} trying "
-                f"to pop {n} values. Stack: {stack}")
-            raise IndexError(msg)
+                f"to pop {n} values. Stack: {state.stack}")
+            raise StackDepletedError(msg)
 
         for i in range(n):
-            yield stack.pop()
+            yield state.stack.pop()
 
     def stack_size(self):
-        return len(stack)
+        return len(state.stack)
 
     def take_n(self, n):
         if n == 1:
@@ -33,16 +34,15 @@ class StackAccessor:
         return self.take_n(3)
 
     def take_all(self):
-        return self.take_n(len(stack))
+        return self.take_n(len(state.stack))
 
     def push(self, value):
         # use of += in if statement creates local binding
         # shrug python things
-        global stack
         if isinstance(value, list):
-            stack += value
+            state.stack += value
         else:
-            stack.append(value)
+            state.stack.append(value)
 
 
 @enum.unique
@@ -68,7 +68,7 @@ class ActionEnum(StackAccessor, enum.Enum):
         return obj
 
     def action(self):
-        msg = f"No action method defined in {self}"
+        msg = f"Default action not implemented for {self}"
         raise NotImplementedError(msg)
 
     def help(self):
