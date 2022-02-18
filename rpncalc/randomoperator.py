@@ -8,6 +8,7 @@ class RandomOperator(ActionEnum):
 
     rand = 'rand', "Random double on [0,1)"
     coin = 'coin', "Random fair coinflip from {0,1}"
+    normal = 'normal', "Random on normal mu=0, sigma=1"
     d2 = 'd2', "Roll two-sided die (1,2)"
     d4 = 'd4', "Roll die (1, 2, .., 4)"
     d6 = 'd6', "Roll die (1, 2, .., 6)"
@@ -26,6 +27,8 @@ class RandomOperator(ActionEnum):
                 roll = rng.random()
             case o.coin:
                 roll = rng.integers(2)
+            case o.normal:
+                roll = rng.normal(0,1)
             case o.d2:
                 roll = rng.integers(1, 2, endpoint=True)
             case o.d4:

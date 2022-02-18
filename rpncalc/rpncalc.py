@@ -29,8 +29,8 @@ def interactive_loop(parser):
             if len(exp) > 0:
                 ans = compute_rpn(exp, parser.verbose)
                 print(f"Stack : {ans}")
-                if parser.debug:
-                    breakpoint()
+            if parser.debug:
+                breakpoint()
         except Exception as e:
             traceback.print_exception(e)
 
