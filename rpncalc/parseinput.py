@@ -37,8 +37,8 @@ def compute_rpn(expression, verbose=False, return_copy=True):
                     s = f"No known action in rpn parse loop for item '{item}'"
                     raise ValueError(s)
 
-    except Exception:
-        print(traceback.print_exc())
+    except Exception as e:
+        traceback.print_exception(e)
         print("Encountered above error, rolling back state changes")
         rpncalc.state.state.load_snapshot(snap)
 
