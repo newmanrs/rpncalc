@@ -2,7 +2,7 @@ from rpncalc.classes import ActionEnum
 from rpncalc.state import state
 
 
-class StackOperator(ActionEnum):
+class StateOperator(ActionEnum):
     clear_stack = 'clear', "Clear entire stack."
     clear_store = 'clear_storage', "Clear stored named variables"
     swap2 = 'swap2', "Swap last two elements"
@@ -14,6 +14,8 @@ class StackOperator(ActionEnum):
         match self:
             case o.clear_stack:
                 state.clear_stack()
+            case o.clear_store:
+                state.clear_storage()
             case o.swap2:
                 v1, v0 = self.take_2()
                 self.push(v1)

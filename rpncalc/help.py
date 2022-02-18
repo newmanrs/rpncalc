@@ -7,7 +7,7 @@ from rpncalc.unaryoperator import UnaryOperator
 from rpncalc.binaryoperator import BinaryOperator
 from rpncalc.reductionoperator import ReductionOperator
 from rpncalc.linearalgebraoperator import LinearAlgebraOperator
-from rpncalc.stackoperator import StackOperator
+from rpncalc.stateoperator import StateOperator
 from rpncalc.randomoperator import RandomOperator
 from rpncalc.history import HistoryOperator
 
@@ -57,7 +57,7 @@ def operator_help_list():
         BinaryOperator, UnaryOperator,
         IdempotentOperator, ReductionOperator,
         LinearAlgebraOperator, Constant,
-        StackOperator, RandomOperator,
+        StateOperator, RandomOperator,
         HistoryOperator
         ]
     for T in types:
