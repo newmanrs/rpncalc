@@ -89,13 +89,13 @@ class HelpOperator(ActionEnum):
 class HelpCommand():
 
     def __init__(self, cmd):
-        self.cmd = cmd
+        self.value = cmd
         self.op = rpncalc.parseinput.parse_expression(cmd)[0]
 
     def action(self):
         # Print what we know about the command
         msg = (
-            f"Help for cmd '{self.cmd}'\n"
+            f"Help for cmd '{self.value}'\n"
             f"Applies operator {self.op}."
             )
         if hasattr(self.op, 'help'):

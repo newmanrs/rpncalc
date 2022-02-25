@@ -28,7 +28,7 @@ class RandomOperator(ActionEnum):
             case o.coin:
                 roll = rng.integers(2)
             case o.normal:
-                roll = rng.normal(0,1)
+                roll = rng.normal(0, 1)
             case o.d2:
                 roll = rng.integers(1, 2, endpoint=True)
             case o.d4:

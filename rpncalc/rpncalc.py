@@ -28,7 +28,10 @@ def interactive_loop(parser):
             exp = parse_expression(exp, parser.verbose)
             if len(exp) > 0:
                 ans = compute_rpn(exp, parser.verbose)
-                print(f"Stack : {ans}")
+                msg = f"Stack: {ans.stack}"
+                if ans.stored_values:
+                    msg += f", Stored Values: {ans.stored_values}"
+                print(msg)
             if parser.debug:
                 breakpoint()
         except Exception as e:
