@@ -1,27 +1,31 @@
 import unittest
 import numpy
-from rpncalc.rpncalc import parse_expression, compute_rpn
-import rpncalc.state
+import copy
+from rpncalc.state import state
+from rpncalc.compute import compute
 
 
 class TestRPNCalc(unittest.TestCase):
 
     def run_from_expr(self, expr, clear_stored=True, clear_stack=True):
-        # TODO:  Fix the state management here
 
         print(f"\n\"{expr}\"")
-        state = compute_rpn(parse_expression(expr))
+        state.expression = expr
+        compute()
+        print(state)
+
+        if len(state.stack) == 1:
+            ans = copy.copy(state.stack[0])
+        else:
+            ans = copy.copy(state.stack)
+
         # Clear the named storage variables to ensure
         # that unittests are independent of order
         if clear_stored:
-            rpncalc.state.state.clear_storage()
+            state.clear_storage()
         if clear_stack:
-            rpncalc.state.state.clear_stack()
-        if len(state.stack) == 1:
-            ans = state.stack[0]
-        else:
-            ans = state.stack
-        print(ans)
+            state.clear_stack()
+
         return ans
 
     def test_numerals(self):
@@ -97,7 +101,7 @@ class TestRPNCalc(unittest.TestCase):
             )
         ans = self.run_from_expr(expr, clear_stored=False)
         expr = "1 3 5 vec3 7 11 13 vec3 15 17 23 vec3 hstack hstack _A T - sum"
-        ans = self.run_from_expr(expr)
+        ans = self.run_from_expr(expr, clear_stored=False)
         self.assertEqual(ans, 0)
 
     def test_matrix_solve(self):

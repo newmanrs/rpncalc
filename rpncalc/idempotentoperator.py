@@ -28,7 +28,7 @@ class IdempotentOperator(ActionEnum):
                 else:
                     print(f"Stack: {stack}")
             case o.print_stored_named:
-                print(f"Stored Values {state.stored_values}")
+                print(f"Stored Values: {state.stored_values}")
             case o.print_state:
                 print(state)
             case o.quit:

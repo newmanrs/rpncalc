@@ -4,9 +4,9 @@ import argparse
 import readline  # noqa: F401
 import traceback
 
-from rpncalc.parseinput import compute_rpn, parse_expression
-from rpncalc.history import add_to_history_if_not_same_as_last
-import rpncalc.state
+from rpncalc.compute import compute
+from rpncalc.history import add_to_history
+from rpncalc.state import state, options
 
 
 def parse_args():
@@ -18,24 +18,38 @@ def parse_args():
     parser.add_argument('--load', '-l', type=str)
     parser.add_argument('--debug', action='store_true')
 
-    return parser.parse_args()
+    args = parser.parse_args()
+
+    if args.help:
+        raise NotImplementedError
+    if args.verbose:
+        options.verbose = True
+    if args.interactive:
+        options.interactive = True
+    if args.load:
+        options.load_file = args.load
+    if args.debug:
+        options.debug = True
+
+    state.expression = ' '.join(args.expression)
 
 
-def interactive_loop(parser):
+def interactive_loop():
+
     while True:
-        exp = input("Enter expression:\n")
+
+        snapshot = state.make_snapshot()
+
+        state.print_stack_and_stored()
+        state.expression = input("Enter expression:\n")
         try:
-            exp = parse_expression(exp, parser.verbose)
-            if len(exp) > 0:
-                ans = compute_rpn(exp, parser.verbose)
-                msg = f"Stack: {ans.stack}"
-                if ans.stored_values:
-                    msg += f", Stored Values: {ans.stored_values}"
-                print(msg)
-            if parser.debug:
+            compute()
+            if options.debug:
                 breakpoint()
         except Exception as e:
             traceback.print_exception(e)
+            print("Encountered above exception, reloading state snapshot")
+            state.load_snapshot(snapshot)
 
 
 def main():
@@ -43,20 +57,17 @@ def main():
     RPN Calculator.  Entry point to script installed by setup.py.
     """
 
-    parser = parse_args()
-    if parser.load is not None:
-        rpncalc.state.state.load_from_file(parser.load)
+    # Parse input arguments into rpncalc.state.options
+    parse_args()
+    if f := options.load_file is not None:
+        state.load_from_file(f)
 
-    if parser.interactive:
-        interactive_loop(parser)
-    else:
-        # Commmand line input needs to be added manually to
-        # calculator history file.
-        add_to_history_if_not_same_as_last(' '.join(parser.expression))
-        exp = parse_expression(parser.expression, parser.verbose)
-        ans = compute_rpn(exp, parser.verbose)
-        if len(ans.stack) > 0:
-            print(f"Stack: {ans.stack}")
+    # Add command expression (if any) to history and run
+    if state.expression:
+        add_to_history()
+        compute()
 
-    if parser.debug:
-        breakpoint()
+    if options.interactive:
+        interactive_loop()
+
+    state.print_stack_and_stored()

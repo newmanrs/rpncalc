@@ -2,9 +2,9 @@ import readline
 import atexit
 import os
 
-import rpncalc.parseinput
+import rpncalc.compute
 from rpncalc.classes import ActionEnum
-
+from rpncalc.state import state
 
 HIST_LENGTH = 1000
 HIST_LOC = '~/.local/rpncalc-history'
@@ -60,10 +60,10 @@ def get_history(idx: int):
         if idx < 1 or idx > maxidx:
             msg = f"History idx must be between 1 and {maxidx}, received {idx}"
             print(msg)
-        item = readline.get_history_item(idx)
-        print(item)
-        exp = rpncalc.parseinput.parse_expression(item)
-        rpncalc.parseinput.compute_rpn(exp)
+        else:
+            expr = readline.get_history_item(idx)
+            print(f"Loaded history expr '{expr}'")
+            rpncalc.compute._parse_expression(expr)
 
 
 def last_history():
@@ -76,17 +76,17 @@ def last_history():
         return readline.get_history_item(maxidx)
 
 
-def add_to_history_if_not_same_as_last(exp: str):
+def add_to_history():
     """ Add command line history if not same as
     last prior command """
     last = last_history()
-    if last != exp:
-        readline.add_history(exp)
+    if (s := state.expression) != last:
+        readline.add_history(s)
 
 
 class HistoryOperator(ActionEnum):
 
-    print_history = 'print_history'
+    print_history = 'history'
     get_history = 'get_history'
 
     def action(self):

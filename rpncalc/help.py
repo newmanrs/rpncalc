@@ -1,4 +1,4 @@
-import rpncalc.parseinput
+import rpncalc.compute
 
 from rpncalc.classes import ActionEnum
 from rpncalc.constantoperator import Constant
@@ -90,7 +90,7 @@ class HelpCommand():
 
     def __init__(self, cmd):
         self.value = cmd
-        self.op = rpncalc.parseinput.parse_expression(cmd)[0]
+        self.op = rpncalc.compute._string_to_type(cmd)
 
     def action(self):
         # Print what we know about the command

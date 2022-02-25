@@ -1,6 +1,6 @@
 from rpncalc.classes import ActionEnum
 from rpncalc.state import state
-import rpncalc.parseinput
+import rpncalc.compute
 
 
 class StateOperator(ActionEnum):
@@ -37,7 +37,7 @@ class StateOperator(ActionEnum):
                 state.load_from_file(filename)
             case o.repeatn:
                 n = self.take_1()
-                item = rpncalc.parseinput.string_to_type(state.last_action)
+                item = rpncalc.compute._string_to_type(state.last_action)
                 for _ in range(n):
                     item.action()
 
