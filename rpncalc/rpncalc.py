@@ -20,8 +20,6 @@ def parse_args():
 
     args = parser.parse_args()
 
-    if args.help:
-        raise NotImplementedError
     if args.verbose:
         options.verbose = True
     if args.interactive:
@@ -32,6 +30,13 @@ def parse_args():
         options.debug = True
 
     state.expression = ' '.join(args.expression)
+
+    if args.help:
+        state.expression = "help " + state.expression
+
+    # if no expression is given, print calculator help
+    if len(state.expression) == 0:
+        state.expression = "help"
 
 
 def interactive_loop():
