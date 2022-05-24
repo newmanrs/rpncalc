@@ -34,9 +34,10 @@ class State:
         """
         Print stack, and optionally stored values
         """
-        msg = f"Stack: {self.stack}"
+        msg = ""
         if self.stored_values:
-            msg += f", Stored Values: {self.stored_values}"
+            msg += f"Stored Values: {self.stored_values}\n"
+        msg += f"Stack: {self.stack}"
         print(msg)
 
     def clear_stack(self):
