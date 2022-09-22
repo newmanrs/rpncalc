@@ -23,6 +23,9 @@ class BinaryOperator(ActionEnum):
     lte = '<='
     choose = 'choose'
     combinations = 'combo'
+    modulo = '%'
+    divmodulo = 'divmod', \
+        "returns quotient and remainder"
 
     def action(self):
 
@@ -63,6 +66,14 @@ class BinaryOperator(ActionEnum):
             case o.combinations:
                 f = math.factorial
                 r = f(v0)//(f(v0-v1)*f(v1))
+            case o.modulo:
+                r = v0 % v1
+            case o.divmodulo:
+                r = divmod(v0, v1)
+                # divmod returns 2 valuesso push and exit
+                self.push(r[0])
+                self.push(r[1])
+                return
             case _:
                 msg = f"Missing case match for {self}"
                 raise NotImplementedError(msg)
