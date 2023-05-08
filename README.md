@@ -8,20 +8,37 @@ Clone repository and `pip3 install ./rpncalc` to install the calculator.
 Calling `rpncalc` with no arguments will print a list of commands available to the calculator.  A likely out of date example of the help page is below.
 
 ```
-Displaying help.
-Pass integers or numbers to script and apply one or more of the following operators:
-Idempotent Operators: ('print', 'print_sv', 'print_store', 'quit', 'exit')
-Unary Operators: ('sin', 'cos', 'tan', 'acos', 'asin', 'atan', 'int', 'exp', 'expmxsq', '!', 'ln', 'log10', 'sqrt', '1/x', 'uminus')
-Binary Operators: ('+', '-', '*', '/', '//', '^', 'atan2', 'log_base', '=', '>', '>=', '<', '<=', 'choose', 'combo')
-Reduction Operators: ('sum', 'prod', 'mean', 'max', 'min', 'stdev', 'sem', 'var')
-Linear Algebra Operators ('vec2', 'vec3', 'veca', 'vecn', 'dot', 'cross', 'mat2', 'mat3', 'matsq', 'matmn', 'det', 'inv', 'T', 'e_x', 'e_y', 'e_z', 'hstack', 'vstack', 'repeat', 'reshape', 'normalize', 'norm', 'to_stack')
-Stack Operators ('clear', 'swap2', 'reverse', 'pop')
-Constants: ('pi', 'tau', 'e', 'c', 'h', 'mu0', 'Na', 'kb', 'R', 'G', 'g', 'm_e', 'm_p', 'm_n')
+Reverse Polish Calculator on input argument strings.  An example `rpncalc 1 2 +`
+  should push 3 to the stack.  The available operators are:
+ BinaryOperators:
+  +, -, *, /, //, ^, atan2, log_base, =, >, >=, <, <=, choose, combo, %, divmod
+ UnaryOperators:
+  sin, cos, tan, acos, asin, atan, int, exp, expmxsq, !, ln, log10, sqrt, 1/x,
+  uminus
+ IdempotentOperators:
+  print, print_sv, print_store, print_state, quit, exit
+ ReductionOperators:
+  sum, prod, mean, max, min, stdev, sem, var
+ LinearAlgebraOperators:
+  vec2, vec3, veca, vecn, dot, cross, mat2, mat3, matsq, matmn, det, inv, T,
+  e_x, e_y, e_z, hstack, vstack, reshape, normalize, norm, to_stack
+ Constants:
+  true, false, pi, tau, e, c, h, mu0, Na, kb, R, G, g, m_e, m_p, m_n
+ StateOperators:
+  clear, clear_storage, swap2, reverse, pop, save, load, repeatn
+ RandomOperators:
+  rand, coin, normal, d2, d4, d6, d8, d10, d12, d20, d100
+ HistoryOperators:
+  history, get_history
 
-Use help(cmd) or help_cmd for help on specific operators such as help_matsq
+Use help(cmd) or help_cmd for detailed help on specific operators such as
+  help_matsq
 
---verbose, -v, to show how the stack is processed
---interactive, -i, for interactive input loop
+Flags:
+ --verbose, -v. Print how the stack is processed
+ --interactive, -i. Launch interactive input loop
+ --load, -l.  Load from specified snapshot file
+ --debug. Set breakpoints after expression evalution
 ```
 
 Be wary that many commands involving certain characters must be encapsulated in quotes or your shell will expand them before passing them to the script.  Launching the script with `-iv` for interactive mode can be less hassle.
@@ -68,3 +85,7 @@ Example below is linear regression fitting `y=2+x` via inputting `x,y` datapoint
 Stack: [array([[2.],
        [1.]])]
 ```
+
+## Design
+
+This was built as an experiment of using python emums with match statements for python3.10.  Input strings are cast to callable enum classes, and then processed via a stack. Perhaps not wholly wise to implement an RPN calculator using these tools (see the `__new__` override in the `ActionEnum` class), as well as the potentially overcomplicated creation of the cli help.  Adding a bash-like history and interactive modes for the calculator were surprisingly simple.
